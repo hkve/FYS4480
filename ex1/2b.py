@@ -101,4 +101,5 @@ def plot3():
 	plt.show()
 
 if __name__ == "__main__":
+	plot2()
 	plot3()
