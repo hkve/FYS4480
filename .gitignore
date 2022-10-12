@@ -1,3 +1,16 @@
 FYS4480/
 LN/
 __pycache__
+
+
+*.blg
+*.aux
+*.bbl
+*.fdb_latexmk
+*.log
+*.fls
+*.log
+*.out
+*.run.xml
+*.gz
+
