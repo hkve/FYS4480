@@ -6,6 +6,7 @@
 \usepackage{physics}
 \usepackage{braket}
 \usepackage{xfrac}
+\usepackage{simpler-wick}
 
 % Citetations
 \usepackage[ backend=bibtex, sorting=none, autocite=plain]{biblatex}
@@ -130,8 +131,13 @@
     ADD PLOT HERE
 
 \subsection*{Part c), Limiting ourselves to one-particle-one-hole excitations.}
-    We will now calculate the matrix elements involving the one-particle-one-hole states. Firstly, we compute the elements including one excited state. By using the expressions for the Hamiltonian $\hat{H} = \hat{H}_0 + \hat{H}_I$ in addition to Wick's generalized theorem, we find:
+    We will now calculate the matrix elements involving the one-particle-one-hole states. Firstly, we compute the elements including one excited state. This is done by using the expressions for the Hamiltonian $\hat{H} = \hat{H}_0 + \hat{H}_I$ from eq. \ref{eq:H0}, \ref{eq:HI} in addition to Wick's generalized theorem. We see that the terms without any operators simply give a term $\braket{\Phi_0 | \Phi_{i}^{a}}$ which yields zero. In addition, the term including four normal ordered operators leaves us with two uncontracted normal ordered operators, which gives zero when applied inside an inner product between  $\gs$'s. Thus, only the terms with two normal ordered operators $\set{\crt{p}\ani{q}}$ will contribute. There are two such terms and we therefor calculate these contractions before applying the sums.  
     
+    \begin{align*}
+        \inner{\Phi_0}{\set{\crt{p}\ani{q}}}{\Phi_{i}^{a}} &= \inner{\Phi_0}{\set{\crt{p}\ani{q}} \crt{a}\ani{i}}{\Phi_0} = \bra{\Phi_0} \wick{\c1{a}^\dagger_p \c2{a}_q \c2{a}^\dagger_a \c1{\ani{i}}} \ket{\Phi_0} = \delta_{pi}\delta_{qa} \\
+        \inner{\Phi_0}{\hat{H}}{\Phi_i^a} &= \sum_{pq} \inner{p}{\hnull}{q}\delta_{pi}\delta_{qa} + \sum_{pqj} \innerAS{pj}{\hat{v}}{qj}\delta_{pi}\delta_{qa} \\
+        &= \inner{i}{\hnull}{a} + \sum_j \innerAS{ij}{\hat{v}}{aj}
+    \end{align*}
     $\inner{\Phi_0}{\hat{H}}{\Phi_{i}^{a}}$
 \subsection*{Part d), Moving to the Beryllium atom.}
 \subsection*{Part e), Hartree-Fock.}
