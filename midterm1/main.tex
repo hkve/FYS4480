@@ -34,6 +34,8 @@
 
 \newcommand{\ups}[1]{#1\uparrow}
 \newcommand{\downs}[1]{#1\downarrow}
+\newcommand{\upst}[1]{#1\hspace{-2px}\uparrow}
+\newcommand{\downst}[1]{#1\hspace{-2px}\uparrow}
 
 \newcommand{\inner}[3]{\braket{#1|#2|#3}}
 \newcommand{\innerAS}[3]{\inner{#1}{#2}{#3}_{\text{AS}}}
@@ -55,9 +57,9 @@
     Since we use hydrogen-like single particle states, we consider the quantum numbers $nlm_l sm_s$. We constrain ourselves to only look at $n = 1,2,3$, with $l = 0$ implying $m_l = 0$ In addition, since electrons are fermions, all single particle states (SPS) must have $s = \sfrac{1}{2}$, giving two possible spin projections $m_s = \sfrac{1}{2}, -\sfrac{1}{2}$, which we will write as $\uparrow, \downarrow$ respectively. Due to these restrictions, the only relevant quantum numbers are $nm_s$. Using the creation and annihilation operators ($\crt{nm_s}, \ani{nm_s}$) from the second quantization formalism, we can construct all six SPS as excitations of the vacuum state $\vac$:
     
     \begin{align*}
-        \ket{\ups{1}}=\crt{\ups{1}}\vac\hspace{30px}&\ket{\downs{1}}=\crt{\downs{1}}\vac\\
-        \ket{\ups{2}}=\crt{\ups{2}}\vac\hspace{30px}&\ket{\downs{2}}=\crt{\downs{2}}\vac\\
-        \ket{\ups{3}}=\crt{\ups{3}}\vac\hspace{30px}&\ket{\downs{3}}=\crt{\downs{3}}\vac
+        \ket{\upst{1}}=\crt{\ups{1}}\vac\hspace{30px}&\ket{\downst{1}}=\crt{\downs{1}}\vac\\
+        \ket{\upst{2}}=\crt{\ups{2}}\vac\hspace{30px}&\ket{\downst{2}}=\crt{\downs{2}}\vac\\
+        \ket{\upst{3}}=\crt{\ups{3}}\vac\hspace{30px}&\ket{\downst{3}}=\crt{\downs{3}}\vac
     \end{align*}
     We now wish to set up an ansatz (educated guess) for the helium ground state $\gs$. The one body energy $\inner{i}{\hnull}{i}$ is increasing with $n$, thus it makes sense that the lowest energy multi particle state (MPS) should prioritize the $n = 1$ SPS. No two fermions can be in the same state, thus setting both electrons in $n = 1$ requires antiparallel spin. This gives:   
     \begin{align*}
@@ -69,7 +71,7 @@
     \begin{align*}
         \exed{i}{a} = \crt{a}\ani{i}\gs
     \end{align*}
-    The annihilation operator must have the same quantum numbers as one of the electrons in $\gs$, giving $i \in \set{(\ups{1}),(\downs{1})}$. In addition, to keep the $M_s = 0$ constraint the creation operator must have the same spin projection as the annihilation operator giving $a \in \set{(\ups{2}),(\ups{3})}$ for $i = (\ups{1})$ and $\set{(\downs{2}),(\downs{3})}$ for $i = (\downs{1})$, giving a total of four one-particle-one-hole states:
+    The annihilation operator must have the same quantum numbers as one of the electrons in $\gs$, giving $i \in \set{(\upst{1}),(\downst{1})}$. In addition, to keep the $M_s = 0$ constraint the creation operator must have the same spin projection as the annihilation operator giving $a \in \set{(\upst{2}),(\upst{3})}$ for $i = (\upst{1})$ and $\set{(\downst{2}),(\downst{3})}$ for $i = (\downst{1})$, giving a total of four one-particle-one-hole states:
     \begin{align*}
         \exed{\ups{1}}{\ups{2}} = \crt{\ups{2}}\ani{\ups{1}}\gs\hspace{30px}&\exed{\downs{1}}{\downs{2}} = \crt{\downs{2}}\ani{\downs{1}}\gs \\
         \exed{\ups{1}}{\ups{3}} = \crt{\ups{3}}\ani{\ups{1}}\gs\hspace{30px}&\exed{\downs{1}}{\downs{3}} = \crt{\downs{3}}\ani{\downs{1}}\gs
@@ -79,7 +81,7 @@
     \begin{align*}
         \exed{ij}{ab} = \crt{a}\crt{b}\ani{i}\ani{j}\gs
     \end{align*}
-    The annihilation operators must again have the same quantum numbers as one the electrons in $\gs$. Since we have two on them, they are now locked to $i = (\ups{1}), j = (\downs{1})$. This leaves us with the vacuum again, where we can fill the states $n = 2, 3$ and $m_s = \uparrow, \downarrow$ giving $4*2 = 8$ states. However, the $M_s = 0$ restriction reduces this to $4$ states since we must have antiparallel spins:
+    The annihilation operators must again have the same quantum numbers as one the electrons in $\gs$. Since we have two on them, they are now locked to $i = (\upst{1}), j = (\downst{1})$. This leaves us with the vacuum again, where we can fill the states $n = 2, 3$ and $m_s = \uparrow, \downarrow$ giving $4*2 = 8$ states. However, the $M_s = 0$ restriction reduces this to $4$ states since we must have antiparallel spins:
     
     \begin{align*}
         \exed{\ups{1},\downs{1}}{\ups{2},\downs{2}}=\crt{\ups{2}}\crt{\downs{2}}\ani{\ups{1}}\ani{\downs{1}}\gs \\
@@ -89,19 +91,48 @@
     \end{align*}
 
 \subsection*{Part b), Second quantized Hamiltonian.}
+    We now define the Hamiltonian in a second quantized form. As seen in both the lectures and lecture notes, the one body part ($\hat{H}_0$) and two body part ($\hat{H}_I$) can be written using creation and annihilation operators as: 
+    \begin{align*}
+        \hat{H} &= \hat{H}_0 + \hat{H}_I \\
+        \hat{H}_0 &= \sum_{pq} \inner{p}{\hnull}{q}\crt{p}\ani{q} \\
+        \hat{H}_I &= \frac{1}{4} \sum_{pqrs} \innerAS{pq}{\hat{v}}{rs} \crt{p}\crt{q}\ani{s}\ani{r}
+    \end{align*}
+    With $\hnull$ containing both the electrons kinetic term and electromagnetic interaction with the stationary nucleus (modeled as an external potential). Here, the interaction potential $\hat{v} = \sfrac{1}{r}$ is the electron-electron interaction. The AS subscript on the two body matrix element is defined as $\innerAS{pq}{\hat{v}}{rs} = \inner{pq}{\hat{v}}{rs} - \inner{pq}{\hat{v}}{sr}$. The indices $p,q,r,s,...$ are used to note both particle and hole states (above and below the Fermi level). In the exercise from week 39, we rewrote this in \textit{normal ordered} form w.r.t. to the Fermi level (NOTE TO SELF: Do I need to show this?). The result is:
 
-\begin{align*}
-    \hat{H} &= \hat{H}_0 + \hat{H}_I \\
-    \hat{H}_0 &= \sum_{pq} \inner{p}{\hnull}{q}\crt{p}\ani{q} \\
-    \hat{H}_I &= \frac{1}{4} \sum_{pqrs} \innerAS{pq}{\hat{v}}{rs} \crt{p}\crt{q}\ani{s}\ani{r}
-\end{align*}
+    \begin{align}
+        \hat{H}_0 &= \sum_{pq} \inner{p}{\hnull}{q} \set{\crt{p}\ani{q}} + \sum_{i} \inner{i}{\hnull}{i} \label{eq:H0} \\
+        \hat{H}_I &= \frac{1}{4}\sum_{pqrs}\innerAS{pq}{\hat{v}}{rs} \set{\crt{p}\crt{q}\ani{s}\ani{r}} + \sum_{pqi} \innerAS{pi}{\hat{v}}{qi}\set{\crt{p}\ani{q}} + \frac{1}{2}\sum_{ij}\innerAS{ij}{\hat{v}}{ij} \label{eq:HI} 
+    \end{align}
+    This allows us the use Wick's generalized theorem, such that only operators between different normal ordered strings need to be contracted. Using this, we want to calculate the energy expectation value of the ground state $\gs$. Since we have $\hat{H}$ expressed in a normal ordered formed, the terms with $\set{\crt{p}\ani{q}}$ and the term with $\set{\crt{p}\crt{q}\ani{s}\ani{r}}$ becomes $0$ when applied to an inner product of $\gs$. Thus, the calculation becomes rather simple.
 
-\begin{align*}
-    \hat{H}_0 &= \sum_{pq} \inner{p}{\hnull}{q} \set{\crt{p}\ani{q}} + \sum_{i} \inner{i}{\hnull}{i} \\
-    \hat{H}_I &= \frac{1}{4}\sum_{pqrs}\innerAS{pq}{\hat{v}}{rs} \set{\crt{p}\crt{q}\ani{s}\ani{r}} + \sum_{pqi} \innerAS{pi}{\hat{v}}{qi}\set{\crt{p}\crt{q}} + \frac{1}{2}\sum_{ij}\innerAS{ij}{\hat{v}}{ij}\\ 
-\end{align*}
+    \begin{align*}
+        E[\Phi_0] &= \inner{\Phi_0}{\hat{H}}{\Phi_0} = \inner{\Phi_0}{\hat{H}_0 + \hat{H}_I}{\Phi_0} \\ 
+        \inner{\Phi_0}{\hat{H}_0}{\Phi_0} &= 0 + \sum_i \inner{i}{\hnull}{i} \braket{\Phi_0 | \Phi_0} = \sum_i \inner{i}{\hnull}{i} \\
+        \inner{\Phi_0}{\hat{H}_I}{\Phi_0} &= 0 + 0 + \frac{1}{2}\sum_{ij} \innerAS{ij}{\hat{v}}{ij}\braket{\Phi_0|\Phi_0} = \frac{1}{2}\sum_{ij} \innerAS{ij}{\hat{v}}{ij} \\
+        \Rightarrow E[\Phi_0] &= \sum_i \inner{i}{\hnull}{i} + \frac{1}{2}\sum_{ij} \innerAS{ij}{\hat{v}}{ij}
+    \end{align*}
+    Since $i,j \leq F$ and only $n=1$ is included in the Fermi level, the sum here is only over spin projections $m_s \in \set{\uparrow, \downarrow}$. For the double sum we should also explicitly only allow for different spin projections (that is only allowing the terms $ij = \uparrow\downarrow, \downarrow\uparrow$). However, due to the antisymmetrized matrix elements the $ij = \uparrow\uparrow,\downarrow\downarrow$ terms are automatically 0 so we can just sum freely. We now insert the matrix elements to get the energy expectation value as a function of $Z$:
+
+    \begin{align*}
+        \sum_{i} \inner{i}{\hnull}{i} &= \inner{\upst{1}}{\hnull}{\upst{1}} + \inner{\downst{1}}{\hnull}{\downst{1}} = -\frac{Z^2}{2} -\frac{Z^2}{2} = -Z^2 \\
+        \sum_{ij} \innerAS{ij}{\hat{v}}{ij}  &=\innerAS{\upst{1}\downst{1}}{\hat{v}}{\upst{1}\downst{1}} + \innerAS{\downst{1}\upst{1}}{\hat{v}}{\downst{1}\upst{1}} \\
+        &=  (\inner{\upst{1}\downst{1}}{\hat{v}}{\upst{1}\downst{1}} - \inner{\upst{1}\downst{1}}{\hat{v}}{\downst{1}\upst{1}}) \\
+        &+(\inner{\downst{1}\upst{1}}{\hat{v}}{\downst{1}\upst{1}} - \inner{\downst{1}\upst{1}}{\hat{v}}{\upst{1}\downst{1}}) \\
+        &= \inner{11}{\hat{v}}{11} + \inner{11}{\hat{v}}{11} = \frac{5Z}{4} \\
+        E[\Phi_0] &= -Z^2 + \frac{5Z}{8}
+    \end{align*}
+    Where we have used the fact that the interaction $\hat{v}$ only acts on the spatial part of the state, with our spin projection states being orthonormal:
+    \begin{align*}
+        \inner{\alpha\sigma\beta\tau}{v}{\beta\mu\gamma\nu} = \inner{\alpha \beta}{\hat{v}}{\gamma \delta} \delta_{\sigma\mu}\delta_{\tau\nu}
+    \end{align*}
+    With $\alpha, \beta, \gamma, \delta$ referring to the $n$ (spatial) quantum number and $\sigma, \tau, \mu, \nu$ referring to the spin projection $m_s$.
+
+    ADD PLOT HERE
 
 \subsection*{Part c), Limiting ourselves to one-particle-one-hole excitations.}
+    We will now calculate the matrix elements involving the one-particle-one-hole states. Firstly, we compute the elements including one excited state. By using the expressions for the Hamiltonian $\hat{H} = \hat{H}_0 + \hat{H}_I$ in addition to Wick's generalized theorem, we find:
+    
+    $\inner{\Phi_0}{\hat{H}}{\Phi_{i}^{a}}$
 \subsection*{Part d), Moving to the Beryllium atom.}
 \subsection*{Part e), Hartree-Fock.}
 \subsection*{Part f), The Hartree-Fock matrices.}
