@@ -89,6 +89,18 @@
     \end{align*}
 
 \subsection*{Part b), Second quantized Hamiltonian.}
+
+\begin{align*}
+    \hat{H} &= \hat{H}_0 + \hat{H}_I \\
+    \hat{H}_0 &= \sum_{pq} \inner{p}{\hnull}{q}\crt{p}\ani{q} \\
+    \hat{H}_I &= \frac{1}{4} \sum_{pqrs} \innerAS{pq}{\hat{v}}{rs} \crt{p}\crt{q}\ani{s}\ani{r}
+\end{align*}
+
+\begin{align*}
+    \hat{H}_0 &= \sum_{pq} \inner{p}{\hnull}{q} \set{\crt{p}\ani{q}} + \sum_{i} \inner{i}{\hnull}{i} \\
+    \hat{H}_I &= \frac{1}{4}\sum_{pqrs}\innerAS{pq}{\hat{v}}{rs} \set{\crt{p}\crt{q}\ani{s}\ani{r}} + \sum_{pqi} \innerAS{pi}{\hat{v}}{qi}\set{\crt{p}\crt{q}} + \frac{1}{2}\sum_{ij}\innerAS{ij}{\hat{v}}{ij}\\ 
+\end{align*}
+
 \subsection*{Part c), Limiting ourselves to one-particle-one-hole excitations.}
 \subsection*{Part d), Moving to the Beryllium atom.}
 \subsection*{Part e), Hartree-Fock.}
