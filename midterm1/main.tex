@@ -44,21 +44,49 @@
 \newcommand{\ani}[1]{a_{#1}}
 
 
-\title{Interesting title}
+\title{FYS4480 First Midterm}
 \author{Håkon Kvernmoen}
-\date{MONTH YEAR}
+\date{October 2022}
 
 \begin{document}
 \maketitle
 
 \subsection*{Part a), setting up the basis.}
-    Since we use hydrogen-like single particle states, we consider the quantum numbers $nlm_l sm_s$. We constrain ourselves to only look at $n = 1,2,3$, with $l = 0$ implying $m_l = 0$ In addition, since electrons are fermions, all single particle states (SPS) must have $s = \sfrac{1}{2}$, giving two possible spin projections $m_s = \sfrac{1}{2}, -\sfrac{1}{2}$, which we will write as $\uparrow, \downarrow$ respectively. Due to these restrictions, the only relevant quantum numbers are $nm_s$.       
+    Since we use hydrogen-like single particle states, we consider the quantum numbers $nlm_l sm_s$. We constrain ourselves to only look at $n = 1,2,3$, with $l = 0$ implying $m_l = 0$ In addition, since electrons are fermions, all single particle states (SPS) must have $s = \sfrac{1}{2}$, giving two possible spin projections $m_s = \sfrac{1}{2}, -\sfrac{1}{2}$, which we will write as $\uparrow, \downarrow$ respectively. Due to these restrictions, the only relevant quantum numbers are $nm_s$. Using the creation and annihilation operators ($\crt{nm_s}, \ani{nm_s}$) from the second quantization formalism, we can construct all six SPS as excitations of the vacuum state $\vac$:
     
-    We begin by setting up an ansatz (educated guess) for the helium ground state $\gs$. The one body energy $\inner{i}{\hnull}{i}$ is increasing with $n$, thus it makes sense that the lowest energy multi particle state (MPS) should prioritize the $n = 1$ SPS. No two fermions can be in the same state, thus setting both electrons in $n = 1$ requires antiparallel spin. Thus, using the creation and annihilation operators ($\crt{nm_s}, \ani{nm_s}$) from the second quantization formalism, we conclude:   
+    \begin{align*}
+        \ket{\ups{1}}=\crt{\ups{1}}\vac\hspace{30px}&\ket{\downs{1}}=\crt{\downs{1}}\vac\\
+        \ket{\ups{2}}=\crt{\ups{2}}\vac\hspace{30px}&\ket{\downs{2}}=\crt{\downs{2}}\vac\\
+        \ket{\ups{3}}=\crt{\ups{3}}\vac\hspace{30px}&\ket{\downs{3}}=\crt{\downs{3}}\vac
+    \end{align*}
+    We now wish to set up an ansatz (educated guess) for the helium ground state $\gs$. The one body energy $\inner{i}{\hnull}{i}$ is increasing with $n$, thus it makes sense that the lowest energy multi particle state (MPS) should prioritize the $n = 1$ SPS. No two fermions can be in the same state, thus setting both electrons in $n = 1$ requires antiparallel spin. This gives:   
     \begin{align*}
         \gs = \crt{\ups{1}}\crt{\downs{1}}\vac
     \end{align*}
-    With $\vac$ representing the vacuum state. Working with $\vac$ becomes cumbersome when we wish to look at excitations of $\gs$, especially if $\gs$ contains many electrons. Therefor we "redefine the vacuum", that is set $\gs$ as the Fermi level. This means that we will add and remove particles from $\gs$ to represent excited states, instead of constructing these from $\vac$. This introduces the language of \textit{particles} and \textit{holes}. A particle state is a filled state above the Fermi level, that is adding a $n = 2$ or $3$ state to $\gs$. On the contrary a hole state is a non-filled state below the Fermi level, that is removing one of the $n = 1$ electrons from $\gs$. We will refer to hole states using letters $i,j,k, ...$ and particle states using letters $a,b,c,...$.          
+    Working with $\vac$ becomes cumbersome when we wish to look at excitations of $\gs$, especially if $\gs$ contains many electrons. Therefor we "redefine the vacuum", that is set $\gs$ as the Fermi level. This means that we will add and remove particles from $\gs$ to represent excited states, instead of constructing these from $\vac$. This introduces the language of \textit{particles} and \textit{holes}. A particle state is a filled state above the Fermi level, that is adding a $n = 2$ or $3$ state to $\gs$. On the contrary a hole state is a non-filled state below the Fermi level, that is removing one of the $n = 1$ electrons from $\gs$. We will refer to hole states using letters $i,j,k, ...$ and particle states using letters $a,b,c,...$ with each of these indices referring to the relevant quantum numbers $nm_s$. 
+    
+    We will now construct one-particle-one-hole excitations of our ground state $\gs$, which we will write $\exed{i}{a}$. To simplify the number of excitations we will only consider states with a total spin projection $M_s = 0$. Since we have two electrons, this implies that they must have opposite spins. In terms of creation and annihilation operators, the one-particle-one-hole states can be expressed as:
+    \begin{align*}
+        \exed{i}{a} = \crt{a}\ani{i}\gs
+    \end{align*}
+    The annihilation operator must have the same quantum numbers as one of the electrons in $\gs$, giving $i \in \set{(\ups{1}),(\downs{1})}$. In addition, to keep the $M_s = 0$ constraint the creation operator must have the same spin projection as the annihilation operator giving $a \in \set{(\ups{2}),(\ups{3})}$ for $i = (\ups{1})$ and $\set{(\downs{2}),(\downs{3})}$ for $i = (\downs{1})$, giving a total of four one-particle-one-hole states:
+    \begin{align*}
+        \exed{\ups{1}}{\ups{2}} = \crt{\ups{2}}\ani{\ups{1}}\gs\hspace{30px}&\exed{\downs{1}}{\downs{2}} = \crt{\downs{2}}\ani{\downs{1}}\gs \\
+        \exed{\ups{1}}{\ups{3}} = \crt{\ups{3}}\ani{\ups{1}}\gs\hspace{30px}&\exed{\downs{1}}{\downs{3}} = \crt{\downs{3}}\ani{\downs{1}}\gs
+    \end{align*}
+    Using the same methodology, we construct all possible two-particle-two-hole states in the second quantization representation:
+
+    \begin{align*}
+        \exed{ij}{ab} = \crt{a}\crt{b}\ani{i}\ani{j}\gs
+    \end{align*}
+    The annihilation operators must again have the same quantum numbers as one the electrons in $\gs$. Since we have two on them, they are now locked to $i = (\ups{1}), j = (\downs{1})$. This leaves us with the vacuum again, where we can fill the states $n = 2, 3$ and $m_s = \uparrow, \downarrow$ giving $4*2 = 8$ states. However, the $M_s = 0$ restriction reduces this to $4$ states since we must have antiparallel spins:
+    
+    \begin{align*}
+        \exed{\ups{1},\downs{1}}{\ups{2},\downs{2}}=\crt{\ups{2}}\crt{\downs{2}}\ani{\ups{1}}\ani{\downs{1}}\gs \\
+        \exed{\ups{1},\downs{1}}{\ups{3},\downs{3}}=\crt{\ups{3}}\crt{\downs{3}}\ani{\ups{1}}\ani{\downs{1}}\gs \\
+        \exed{\ups{1},\downs{1}}{\ups{2},\downs{3}}=\crt{\ups{2}}\crt{\downs{3}}\ani{\ups{1}}\ani{\downs{1}}\gs \\
+        \exed{\ups{1},\downs{1}}{\ups{3},\downs{2}}=\crt{\ups{3}}\crt{\downs{2}}\ani{\ups{1}}\ani{\downs{1}}\gs
+    \end{align*}
 
 \subsection*{Part b), Second quantized Hamiltonian.}
 \subsection*{Part c), Limiting ourselves to one-particle-one-hole excitations.}
