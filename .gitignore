@@ -1,6 +1,7 @@
 FYS4480/
 LN/
 __pycache__
+.vscode
 
 
 *.blg
@@ -13,4 +14,6 @@ __pycache__
 *.out
 *.run.xml
 *.gz
+
+midterm1/main-blx.bib
 

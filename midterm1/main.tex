@@ -4,6 +4,8 @@
 % Math
 \usepackage{amsmath}
 \usepackage{physics}
+\usepackage{braket}
+\usepackage{xfrac}
 
 % Citetations
 \usepackage[ backend=bibtex, sorting=none, autocite=plain]{biblatex}
@@ -26,6 +28,21 @@
 \usepackage{appendix}
 
 % Commands
+\newcommand{\vac}{\ket{0}}
+\newcommand{\gs}{\ket{\Phi_0}}
+\newcommand{\exed}[2]{\ket{\Phi_{#1}^{#2}}}
+
+\newcommand{\ups}[1]{#1\uparrow}
+\newcommand{\downs}[1]{#1\downarrow}
+
+\newcommand{\inner}[3]{\braket{#1|#2|#3}}
+\newcommand{\innerAS}[3]{\inner{#1}{#2}{#3}_{\text{AS}}}
+
+\newcommand{\hnull}{\hat{h}_0}
+
+\newcommand{\crt}[1]{a_{#1}^{\dagger}}
+\newcommand{\ani}[1]{a_{#1}}
+
 
 \title{Interesting title}
 \author{Håkon Kvernmoen}
@@ -34,31 +51,28 @@
 \begin{document}
 \maketitle
 
-\section{Introduction}
+\subsection*{Part a), setting up the basis.}
+    Since we use hydrogen-like single particle states, we consider the quantum numbers $nlm_l sm_s$. We constrain ourselves to only look at $n = 1,2,3$, with $l = 0$ implying $m_l = 0$ In addition, since electrons are fermions, all single particle states (SPS) must have $s = \sfrac{1}{2}$, giving two possible spin projections $m_s = \sfrac{1}{2}, -\sfrac{1}{2}$, which we will write as $\uparrow, \downarrow$ respectively. Due to these restrictions, the only relevant quantum numbers are $nm_s$.       
+    
+    We begin by setting up an ansatz (educated guess) for the helium ground state $\gs$. The one body energy $\inner{i}{\hnull}{i}$ is increasing with $n$, thus it makes sense that the lowest energy multi particle state (MPS) should prioritize the $n = 1$ SPS. No two fermions can be in the same state, thus setting both electrons in $n = 1$ requires antiparallel spin. Thus, using the creation and annihilation operators ($\crt{nm_s}, \ani{nm_s}$) from the second quantization formalism, we conclude:   
+    \begin{align*}
+        \gs = \crt{\ups{1}}\crt{\downs{1}}\vac
+    \end{align*}
+    With $\vac$ representing the vacuum state. Working with $\vac$ becomes cumbersome when we wish to look at excitations of $\gs$, especially if $\gs$ contains many electrons. Therefor we "redefine the vacuum", that is set $\gs$ as the Fermi level. This means that we will add and remove particles from $\gs$ to represent excited states, instead of constructing these from $\vac$. This introduces the language of \textit{particles} and \textit{holes}. A particle state is a filled state above the Fermi level, that is adding a $n = 2$ or $3$ state to $\gs$. On the contrary a hole state is a non-filled state below the Fermi level, that is removing one of the $n = 1$ electrons from $\gs$. We will refer to hole states using letters $i,j,k, ...$ and particle states using letters $a,b,c,...$.          
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{Young-Platypus.jpg}
-    \caption{Some figure caption}
-    \label{fig:intro:plat}
-\end{figure}
+\subsection*{Part b), Second quantized Hamiltonian.}
+\subsection*{Part c), Limiting ourselves to one-particle-one-hole excitations.}
+\subsection*{Part d), Moving to the Beryllium atom.}
+\subsection*{Part e), Hartree-Fock.}
+\subsection*{Part f), The Hartree-Fock matrices.}
+\subsection*{Part g), Writing a Hartree-Fock code.}
 
-\section{Theory}
-Example citation \cite{DFTgap}, example reference \eqref{eq:theo:curl}, example figure reference \ref{fig:intro:plat}
-
-\begin{align}
-	\int_{0}^{\infty} \dv{\Lambda}{\lambda} \dd{\lambda} = \Lambda(\infty) - \Lambda(0) \label{eq:theo:lambda}
-\end{align}
-
-\begin{align}
-	\vb{A} = \curl{\vb{v}} \label{eq:theo:curl}  
-\end{align}
 
 \begin{appendix}
     \section{Appendix entry}
     some appendix things
 \end{appendix}
-
+\cite{DFTgap}
 \printbibliography
 
 \end{document}
