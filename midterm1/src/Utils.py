@@ -31,6 +31,12 @@ class MatrixElements:
     def n(self, i):
         return i//2 + 1
 
+    def spin(self, i):
+        return "+"*(i%2==0) + "-"*(i%2==1)
+
+    def state(self, i):
+        return f"{self.n(i)}{self.spin(i)}"
+
     def get_onebody(self, i):
         return -self.Z**2 / (2*self.n(i)**2)
 
@@ -38,12 +44,11 @@ class MatrixElements:
         n_i, n_j, n_k, n_l  = i//2, j//2, k//2, l//2
         s_i, s_j, s_k, s_l  = i%2, j%2, k%2, l%2
         
-
-        if s_i == s_k and s_j == s_l:
-            return self.elms[n_i, n_j, n_k, n_l]
-        else:
-            return 0
-
+        spin_delta = (s_i == s_k)*(s_j == s_l) 
+        antiparall = (s_i != s_j)*(s_k != s_l) 
+        
+        return self.elms[n_i, n_j, n_k, n_l]*spin_delta*antiparall
+        
     def getAS(self, i, j, k, l):
         return (self.get(i,j,k,l)-self.get(i,j,l,k))
 
@@ -65,7 +70,6 @@ class Atom:
         
         for i in range(Z):
             # <i|h01|i>
-            n = i//2 + 1
             elm += M.get_onebody(i) 
 
             for j in range(Z):
