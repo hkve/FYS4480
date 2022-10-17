@@ -36,7 +36,7 @@
 \newcommand{\ups}[1]{#1\uparrow}
 \newcommand{\downs}[1]{#1\downarrow}
 \newcommand{\upst}[1]{#1\hspace{-2px}\uparrow}
-\newcommand{\downst}[1]{#1\hspace{-2px}\uparrow}
+\newcommand{\downst}[1]{#1\hspace{-2px}\downarrow}
 
 \newcommand{\inner}[3]{\braket{#1|#2|#3}}
 \newcommand{\innerAS}[3]{\inner{#1}{#2}{#3}_{\text{AS}}}
@@ -131,14 +131,28 @@
     ADD PLOT HERE
 
 \subsection*{Part c), Limiting ourselves to one-particle-one-hole excitations.}
-    We will now calculate the matrix elements involving the one-particle-one-hole states. Firstly, we compute the elements including one excited state. This is done by using the expressions for the Hamiltonian $\hat{H} = \hat{H}_0 + \hat{H}_I$ from eq. \ref{eq:H0}, \ref{eq:HI} in addition to Wick's generalized theorem. We see that the terms without any operators simply give a term $\braket{\Phi_0 | \Phi_{i}^{a}}$ which yields zero. In addition, the term including four normal ordered operators leaves us with two uncontracted normal ordered operators, which gives zero when applied inside an inner product between  $\gs$'s. Thus, only the terms with two normal ordered operators $\set{\crt{p}\ani{q}}$ will contribute. There are two such terms and we therefor calculate these contractions before applying the sums.  
-    
+    We will now calculate the matrix elements involving the one-particle-one-hole states. Firstly, we compute the elements including a single excited state $\inner{\Phi_0}{\hat{H}}{\Phi_i^a}$. This is done by using the expressions for the Hamiltonian $\hat{H} = \hat{H}_0 + \hat{H}_I$ from eq. \ref{eq:H0}, \ref{eq:HI} in addition to Wick's generalized theorem. The excited state is also in normal order. We see that the terms without any operators simply give a term $\braket{\Phi_0 | \Phi_{i}^{a}}$ which yields zero. In addition, the term including four normal ordered operators leaves us with two uncontracted normal ordered operators, which gives zero when applied inside an inner product between  $\gs$'s. Thus, only the terms with two normal ordered operators $\set{\crt{p}\ani{q}}$ will contribute. There are two such terms and we therefor calculate these contractions before applying the sums.  
     \begin{align*}
-        \inner{\Phi_0}{\set{\crt{p}\ani{q}}}{\Phi_{i}^{a}} &= \inner{\Phi_0}{\set{\crt{p}\ani{q}} \crt{a}\ani{i}}{\Phi_0} = \bra{\Phi_0} \wick{\c1{a}^\dagger_p \c2{a}_q \c2{a}^\dagger_a \c1{\ani{i}}} \ket{\Phi_0} = \delta_{pi}\delta_{qa} \\
-        \inner{\Phi_0}{\hat{H}}{\Phi_i^a} &= \sum_{pq} \inner{p}{\hnull}{q}\delta_{pi}\delta_{qa} + \sum_{pqj} \innerAS{pj}{\hat{v}}{qj}\delta_{pi}\delta_{qa} \\
+        \inner{\Phi_0}{\set{\crt{p}\ani{q}}}{\Phi_{i}^{a}} &= \inner{\Phi_0}{\set{\crt{p}\ani{q}} \set{\crt{a}\ani{i}}}{\Phi_0} = \bra{\Phi_0} \wick{\c1{a}^\dagger_p \c2{a}_q \c2{a}^\dagger_a \c1{\ani{i}}} \ket{\Phi_0} = \delta_{pi}\delta_{qa} \\
+        \inner{\Phi_0}{\hat{H}}{\Phi_i^a} &= \sum_{pq} \inner{p}{\hnull}{q}\delta_{pi}\delta_{qa} + 0 + 0 + \sum_{pqj} \innerAS{pj}{\hat{v}}{qj}\delta_{pi}\delta_{qa} + 0 \\
         &= \inner{i}{\hnull}{a} + \sum_j \innerAS{ij}{\hat{v}}{aj}
     \end{align*}
-    $\inner{\Phi_0}{\hat{H}}{\Phi_{i}^{a}}$
+    We now move on to the elements including two one-particle-one-hole states, $\inner{\Phi_i^a}{\hat{H}}{\Phi_j^b}$. For the terms in the Hamiltonian not having any normal ordered operators, we need be careful since we can have the same states on both sides in the case $i=j$ and $a=b$. In addition, both the term with two and four normal ordered operators can now contribute. For less clutter, we first calculate the contractions giving the relevant Kronecker delta's before inserting them into their respective sums. 
+    \begin{align*}
+        \set{\crt{i}\ani{a}} \set{\crt{b}\ani{j}} &= \wick{ \c2{a}_i^\dagger \c1{a}_a \c1{a}_b^\dagger \c2{a}_j } = \delta_{ij}\delta_{ab} \\
+        \set{\crt{i}\ani{a}} \set{\crt{p}\ani{q}} \set{\crt{b}\ani{j}} &= \wick{ \c3{a}_i^\dagger \c1{a}_a \c1{a}_p^\dagger \c1{a}_q \c1{a}_b^\dagger \c3{a}_j } + \wick{ \c2{a}_i^\dagger \c1{a}_a \c3{a}_p^\dagger \c2{a}_q \c1{a}_b^\dagger \c3{a}_j } = \delta_{ij}\delta_{ap}\delta_{qb} - \delta_{iq}\delta_{ab}\delta_{pj} \\
+        \set{\crt{i}\ani{a}} \set{\crt{p}\crt{q}\ani{s}\ani{r}} \set{\crt{b}\ani{j}} &= \wick{ \c1{a}_i^\dagger \c2{a}_a \c2{a}_p^\dagger \c3{a}_q^\dagger \c4{a}_s \c1{a}_r \c4{a}_b^\dagger \c3{a}_j} + \wick{ \c1{a}_i^\dagger \c2{a}_a \c3{a}_p^\dagger \c2{a}_q^\dagger \c4{a}_s \c1{a}_r \c4{a}_b^\dagger \c3{a}_j} + \wick{ \c1{a}_i^\dagger \c2{a}_a \c3{a}_p^\dagger \c2{a}_q^\dagger \c1{a}_s \c4{a}_r \c4{a}_b^\dagger \c3{a}_j} + \wick{ \c1{a}_i^\dagger \c2{a}_a \c2{a}_p^\dagger \c3{a}_q^\dagger \c1{a}_s \c4{a}_r \c4{a}_b^\dagger \c3{a}_j} \\
+        &= \delta_{ir}\delta_{ap}\delta_{qj}\delta_{sb} - \delta_{ir}\delta_{aq}\delta_{pj}\delta_{sb} + \delta_{is}\delta_{aq}\delta_{pj}\delta_{rb} - \delta_{is}\delta_{ap}\delta_{qj}\delta_{rb}
+    \end{align*}
+    Inserting this into the sum then yields the following expression for the matrix elements:
+    \begin{align*}
+        \inner{\Phi_i^a}{\hat{H}_0}{\Phi_j^b} &= \sum_{pq} \inner{p}{\hnull}{q} (\delta_{ij}\delta_{ap}\delta_{qb} - \delta_{iq}\delta_{ab}\delta_{pj}) + \sum_k \inner{k}{\hnull}{k} \delta_{ij}\delta_{ab} \\
+        &= \inner{a}{\hnull}{b}\delta_{ij} - \inner{j}{\hnull}{i}\delta_{ab} + \sum_{k} \inner{k}{\hnull}{k} \delta_{ij}\delta_{ab} \\
+        \inner{\Phi_i^a}{\hat{H}_I}{\Phi_j^b} &= \frac{1}{4}\sum_{pqrs} \innerAS{pq}{\hat{v}}{rs}(\delta_{ir}\delta_{ap}\delta_{qj}\delta_{sb} - \delta_{ir}\delta_{aq}\delta_{pj}\delta_{sb} + \delta_{is}\delta_{aq}\delta_{pj}\delta_{rb} - \delta_{is}\delta_{ap}\delta_{qj}\delta_{rb}) \\ &+ \sum_{pqk} \innerAS{pk}{\hat{v}}{qk}(\delta_{ij}\delta_{ap}\delta_{qb} - \delta_{iq}\delta_{ab}\delta_{pj}) \\
+        &+ \frac{1}{2}\sum_{kl}\innerAS{kl}{\hat{v}}{kl}\delta_{ij}\delta_{ab} \\
+        &= \innerAS{aj}{\hat{v}}{ib} + \sum_k \left( \innerAS{ak}{\hat{v}}{bk}\delta_{ij}-\innerAS{jk}{\hat{v}}{ik}\delta_{ab}\right) + \frac{1}{2}\sum_{kl}\innerAS{kl}{\hat{v}}{kl}\delta_{ij}\delta_{ab}  
+    \end{align*}
+
 \subsection*{Part d), Moving to the Beryllium atom.}
 \subsection*{Part e), Hartree-Fock.}
 \subsection*{Part f), The Hartree-Fock matrices.}
