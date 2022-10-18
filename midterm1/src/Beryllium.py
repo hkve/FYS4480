@@ -1,32 +1,13 @@
-from Utils import Indicies, MatrixElements, Atom
+from Utils import Indices, MatrixElements, Atom
 import numpy as np
 
 M = MatrixElements(N=3, Z=4).read()
 
+a_order = [(2,True),(2,False),(2,True),(2,False)]
+i_order = [(0,True),(0,False),(1,True),(1,False)]
+Fermi = Indices(1)
 
-# Beryllium = Atom(M, 5).fill()
-# print(Beryllium)
-# Beryllium.solve()
-# print(Beryllium.E)
-
-# n = [0,1,2,3]
-# x = -20
-
-# for i in n:
-#     for j in n:
-#         for k in n:
-#             for l in n:
-#                 if M.get(i,j,k,l) != 0:
-#                     print(M.state(i), M.state(j), M.state(k), M.state(l), M.get(i,j,k,l))
-#                 x += 0.5*M.get(i,j,k,l)
-
-i = Indicies(0, True)
-
-for _ in range(4):
-    j = Indicies(0, True)
-    
-    for _ in range(4):
-        print(f"{i}\t{j}")
-        j = next(j)
-    
-    i = next(i)
+Beryllium = Atom(M, Fermi, i_order, a_order).fill()
+print(Beryllium)
+Beryllium.solve()
+print(Beryllium.E)

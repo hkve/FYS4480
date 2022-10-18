@@ -3,26 +3,34 @@ import matplotlib.pyplot as plt
 import re
 from sympy import sympify
 
-class Indicies:
-    def __init__(self, n, up):
-        self.n = 0
-        self.up = True
-    
-    def __next__(self):
-        if self.up:
-            self.up = False
-            return self
-        else:
-            self.up = True
-            self.n += 1
-            return self
+class Indices:
+    def __init__(self, n, roof=3):
+        self.nF = n
+        self.roof = roof
 
-    def __str__(self):
-        return f"n={self.n+1}" + "+"*self.up + "-"*(not self.up)
+    def below(self):
+        i, up = 0, True
+        while i <= self.nF:
+            yield i, up
+            
+            if up:
+                up = False
+            else:
+                up = True
+                i+=1 
 
-    def __iter__(self):
-        return self.n, self.up
-    
+    def above(self):
+        i, up = self.nF +1, True
+        while i <= self.roof:
+            yield i, up
+            
+            if up:
+                up = False
+            else:
+                up = True
+                i+=1 
+            
+
 class MatrixElements:
     def __init__(self, N=3, Z=2):
         self.elms = np.zeros(shape=(N,N,N,N))
@@ -48,51 +56,43 @@ class MatrixElements:
         
         return self
 
-    def n(self, i):
-        return i//2 + 1
-
-    def spin(self, i):
-        return "+"*(i%2==0) + "-"*(i%2==1)
-
-    def state(self, i):
-        return f"{self.n(i)}{self.spin(i)}"
-
     def get_onebody(self, i):
-        return -self.Z**2 / (2*self.n(i)**2)
+        ni, si = i
+        return -self.Z**2 / (2*(ni+1)**2)
 
     def get(self, i,j,k,l):
-        n_i, n_j, n_k, n_l  = i//2, j//2, k//2, l//2
-        s_i, s_j, s_k, s_l  = i%2, j%2, k%2, l%2
+        ni, si = i
+        nj, sj = j
+        nk, sk = k
+        nl, sl = l
         
-        spin_delta = (s_i == s_k)*(s_j == s_l) 
-        antiparall = (s_i != s_j)*(s_k != s_l) 
+        spin_delta = (si == sk)*(sj == sl) 
         
-        return self.elms[n_i, n_j, n_k, n_l]*spin_delta*antiparall
+        return self.elms[ni, nj, nk, nl]*spin_delta
         
     def getAS(self, i, j, k, l):
         return (self.get(i,j,k,l)-self.get(i,j,l,k))
 
 class Atom:
-    def __init__(self, M, D=5):
-        self.D = D
+    def __init__(self, M, Fermi, i_order, a_order, D=5):
         self.M = M
-        self.H = np.zeros(shape=(D,D))
+        self.Fermi = Fermi
+        self.i_order = i_order
+        self.a_order = a_order
 
-    def idx_map(self, n,m):
-        i = (m+1)%2
-        a = m+1
-        return i, a
+        self.D = D
+        self.H = np.zeros(shape=(D,D))
 
     def fill_phi0_ph0(self):
         elm = 0
         M = self.M
         Z = M.Z
         
-        for i in range(Z):
+        for i in self.Fermi.below():
             # <i|h01|i>
             elm += M.get_onebody(i) 
 
-            for j in range(Z):
+            for j in self.Fermi.below():
                 # 0.5*(<ij|M|ij>_AS)
                 elm += 0.5*self.M.getAS(i,j,i,j)
 
@@ -103,7 +103,7 @@ class Atom:
         M = self.M
         Z = M.Z
 
-        for j in range(Z):
+        for j in self.Fermi.below():
             elm += (M.getAS(i,j,a,j))
         return elm
 
@@ -114,35 +114,35 @@ class Atom:
         T1 = M.getAS(a,j,i,b)
 
         T2 = 0
-        for k in range(Z):
+        for k in self.Fermi.below():
             T2 += M.getAS(a,k,b,k)*(i==j) - M.getAS(j,k,i,k)*(a==b)
 
         T3 = (i==j)*(a==b)*(M.get_onebody(a) - M.get_onebody(i)) 
 
         T4 = 0
         if (i==j) and (a==b):
-            for k in range(Z):
+            for k in self.Fermi.below():
                 T4 += M.get_onebody(k)
                 
-                for l in range(Z):
+                for l in self.Fermi.below():
                     T4 += 0.5*M.getAS(k,l,k,l)
 
         return T1 + T2 + T3 + T4
 
     def fill(self):
-        H, D = self.H, self.D 
+        H, D_sub = self.H, self.D-1 
 
-        for n in range(D):
-            for m in range(n,D):
-                i, a  = self.idx_map(n,m)
-                j, b  = self.idx_map(m,n)
-                
-                if n == m == 0:
-                    H[n,m] = self.fill_phi0_ph0()
-                elif n == 0:
-                    H[n,m] = H[m,n] = self.fill_phi0_phi_ia(i,a)
-                else:
-                    H[n,m] = H[m,n] = self.fill_phi_ia_phi_ib(j,b,i,a)
+        H[0,0] = self.fill_phi0_ph0()
+        
+        for n in range(D_sub):
+            i = self.i_order[n]
+            a = self.a_order[n]
+            H[n+1,0] = H[0,n+1] = self.fill_phi0_phi_ia(i,a)
+        
+            for m in range(n, D_sub):
+                j = self.i_order[m]
+                b = self.a_order[m]
+                H[n+1,m+1] = H[m+1,n+1] = self.fill_phi_ia_phi_ib(j,b,i,a)
 
         return self
 
