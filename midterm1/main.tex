@@ -106,13 +106,19 @@
     \end{align}
     This allows us the use Wick's generalized theorem, such that only operators between different normal ordered strings need to be contracted. Using this, we want to calculate the energy expectation value of the ground state $\gs$. Since we have $\hat{H}$ expressed in a normal ordered formed, the terms with $\set{\crt{p}\ani{q}}$ and the term with $\set{\crt{p}\crt{q}\ani{s}\ani{r}}$ becomes $0$ when applied to an inner product of $\gs$. Thus, the calculation becomes rather simple.
 
+    \begin{align}
+        E[\Phi_0] &= \inner{\Phi_0}{\hat{H}}{\Phi_0} = \inner{\Phi_0}{\hat{H}_0 + \hat{H}_I}{\Phi_0} \nonumber \\ 
+        \inner{\Phi_0}{\hat{H}_0}{\Phi_0} &= 0 + \sum_i \inner{i}{\hnull}{i} \braket{\Phi_0 | \Phi_0} = \sum_i \inner{i}{\hnull}{i}\nonumber \\
+        \inner{\Phi_0}{\hat{H}_I}{\Phi_0} &= 0 + 0 + \frac{1}{2}\sum_{ij} \innerAS{ij}{\hat{v}}{ij}\braket{\Phi_0|\Phi_0} = \frac{1}{2}\sum_{ij} \innerAS{ij}{\hat{v}}{ij} \nonumber\\
+        \Rightarrow E[\Phi_0] &= \sum_i \inner{i}{\hnull}{i} + \frac{1}{2}\sum_{ij} \innerAS{ij}{\hat{v}}{ij} \label{eq:phi0_phi0}
+    \end{align}
+    The sum indices $i$ and $j$ are over all energy levels $n$ and spin states $m_s \in \set{\uparrow, \downarrow}$ which are below the Fermi level. Explicitly, this can be written as:
+
     \begin{align*}
-        E[\Phi_0] &= \inner{\Phi_0}{\hat{H}}{\Phi_0} = \inner{\Phi_0}{\hat{H}_0 + \hat{H}_I}{\Phi_0} \\ 
-        \inner{\Phi_0}{\hat{H}_0}{\Phi_0} &= 0 + \sum_i \inner{i}{\hnull}{i} \braket{\Phi_0 | \Phi_0} = \sum_i \inner{i}{\hnull}{i} \\
-        \inner{\Phi_0}{\hat{H}_I}{\Phi_0} &= 0 + 0 + \frac{1}{2}\sum_{ij} \innerAS{ij}{\hat{v}}{ij}\braket{\Phi_0|\Phi_0} = \frac{1}{2}\sum_{ij} \innerAS{ij}{\hat{v}}{ij} \\
-        \Rightarrow E[\Phi_0] &= \sum_i \inner{i}{\hnull}{i} + \frac{1}{2}\sum_{ij} \innerAS{ij}{\hat{v}}{ij}
+        \sum_i \inner{i}{\hnull}{i} &= \sum_{n \leq F}\sum_{m_s} \inner{n m_s}{\hnull}{n m_s} \nonumber \\
+        \frac{1}{2}\sum_i \innerAS{ij}{\hat{v}}{ij} &= \sum_{n \leq F}\sum_{n' \leq F} \sum_{m_s} \sum_{m_s'} \innerAS{nm_s, n' m_s'}{\hat{v}}{nm_s, n' m_s'}
     \end{align*}
-    Since $i,j \leq F$ and only $n=1$ is included in the Fermi level, the sum here is only over spin projections $m_s \in \set{\uparrow, \downarrow}$. For the double sum we should also explicitly only allow for different spin projections (that is only allowing the terms $ij = \uparrow\downarrow, \downarrow\uparrow$). However, due to the antisymmetrized matrix elements the $ij = \uparrow\uparrow,\downarrow\downarrow$ terms are automatically 0 so we can just sum freely. We now insert the matrix elements to get the energy expectation value as a function of $Z$:
+    Since only $n=1$ is included in and below the Fermi level for the Helium atom, the sum here is only over spin projections $m_s \in \set{\uparrow, \downarrow}$. This removes the sums over radial quantum numbers with $n = n' = 1$ substituted in.  We now insert the matrix elements to get the energy expectation value as a function of $Z$:
 
     \begin{align*}
         \sum_{i} \inner{i}{\hnull}{i} &= \inner{\upst{1}}{\hnull}{\upst{1}} + \inner{\downst{1}}{\hnull}{\downst{1}} = -\frac{Z^2}{2} -\frac{Z^2}{2} = -Z^2 \\
@@ -122,7 +128,7 @@
         &= \inner{11}{\hat{v}}{11} + \inner{11}{\hat{v}}{11} = \frac{5Z}{4} \\
         E[\Phi_0] &= -Z^2 + \frac{5Z}{8}
     \end{align*}
-    Where we have used the fact that the interaction $\hat{v}$ only acts on the spatial part of the state, with our spin projection states being orthonormal:
+    Where we have used that the antisymmetric terms with $m_s = m_s'$ evaluates to 0 and the fact that the interaction $\hat{v}$ only acts on the spatial part of the state, with our spin projection states being orthonormal:
     \begin{align*}
         \inner{\alpha\sigma\beta\tau}{v}{\beta\mu\gamma\nu} = \inner{\alpha \beta}{\hat{v}}{\gamma \delta} \delta_{\sigma\mu}\delta_{\tau\nu}
     \end{align*}
@@ -132,11 +138,11 @@
 
 \subsection*{Part c), Limiting ourselves to one-particle-one-hole excitations.}
     We will now calculate the matrix elements involving the one-particle-one-hole states. Firstly, we compute the elements including a single excited state $\inner{\Phi_0}{\hat{H}}{\Phi_i^a}$. This is done by using the expressions for the Hamiltonian $\hat{H} = \hat{H}_0 + \hat{H}_I$ from eq. \ref{eq:H0}, \ref{eq:HI} in addition to Wick's generalized theorem. The excited state is also in normal order. We see that the terms without any operators simply give a term $\braket{\Phi_0 | \Phi_{i}^{a}}$ which yields zero. In addition, the term including four normal ordered operators leaves us with two uncontracted normal ordered operators, which gives zero when applied inside an inner product between  $\gs$'s. Thus, only the terms with two normal ordered operators $\set{\crt{p}\ani{q}}$ will contribute. There are two such terms and we therefor calculate these contractions before applying the sums.  
-    \begin{align*}
-        \inner{\Phi_0}{\set{\crt{p}\ani{q}}}{\Phi_{i}^{a}} &= \inner{\Phi_0}{\set{\crt{p}\ani{q}} \set{\crt{a}\ani{i}}}{\Phi_0} = \bra{\Phi_0} \wick{\c1{a}^\dagger_p \c2{a}_q \c2{a}^\dagger_a \c1{\ani{i}}} \ket{\Phi_0} = \delta_{pi}\delta_{qa} \\
-        \inner{\Phi_0}{\hat{H}}{\Phi_i^a} &= \sum_{pq} \inner{p}{\hnull}{q}\delta_{pi}\delta_{qa} + 0 + 0 + \sum_{pqj} \innerAS{pj}{\hat{v}}{qj}\delta_{pi}\delta_{qa} + 0 \\
-        &= \inner{i}{\hnull}{a} + \sum_j \innerAS{ij}{\hat{v}}{aj}
-    \end{align*}
+    \begin{align}
+        \inner{\Phi_0}{\set{\crt{p}\ani{q}}}{\Phi_{i}^{a}} &= \inner{\Phi_0}{\set{\crt{p}\ani{q}} \set{\crt{a}\ani{i}}}{\Phi_0} = \bra{\Phi_0} \wick{\c1{a}^\dagger_p \c2{a}_q \c2{a}^\dagger_a \c1{\ani{i}}} \ket{\Phi_0} = \delta_{pi}\delta_{qa} \nonumber\\
+        \inner{\Phi_0}{\hat{H}}{\Phi_i^a} &= \sum_{pq} \inner{p}{\hnull}{q}\delta_{pi}\delta_{qa} + 0 + 0 + \sum_{pqj} \innerAS{pj}{\hat{v}}{qj}\delta_{pi}\delta_{qa} + 0 \nonumber\\
+        &= \inner{i}{\hnull}{a} + \sum_j \innerAS{ij}{\hat{v}}{aj} \label{eq:phi0_phi_ia}
+    \end{align}
     We now move on to the elements including two one-particle-one-hole states, $\inner{\Phi_i^a}{\hat{H}}{\Phi_j^b}$. For the terms in the Hamiltonian not having any normal ordered operators, we need be careful since we can have the same states on both sides in the case $i=j$ and $a=b$. In addition, both the term with two and four normal ordered operators can now contribute. For less clutter, we first calculate the contractions giving the relevant Kronecker delta's before inserting them into their respective sums. 
     \begin{align*}
         \set{\crt{i}\ani{a}} \set{\crt{b}\ani{j}} &= \wick{ \c2{a}_i^\dagger \c1{a}_a \c1{a}_b^\dagger \c2{a}_j } = \delta_{ij}\delta_{ab} \\
@@ -145,15 +151,37 @@
         &= \delta_{ir}\delta_{ap}\delta_{qj}\delta_{sb} - \delta_{ir}\delta_{aq}\delta_{pj}\delta_{sb} + \delta_{is}\delta_{aq}\delta_{pj}\delta_{rb} - \delta_{is}\delta_{ap}\delta_{qj}\delta_{rb}
     \end{align*}
     Inserting this into the sum then yields the following expression for the matrix elements:
-    \begin{align*}
-        \inner{\Phi_i^a}{\hat{H}_0}{\Phi_j^b} &= \sum_{pq} \inner{p}{\hnull}{q} (\delta_{ij}\delta_{ap}\delta_{qb} - \delta_{iq}\delta_{ab}\delta_{pj}) + \sum_k \inner{k}{\hnull}{k} \delta_{ij}\delta_{ab} \\
-        &= \inner{a}{\hnull}{b}\delta_{ij} - \inner{j}{\hnull}{i}\delta_{ab} + \sum_{k} \inner{k}{\hnull}{k} \delta_{ij}\delta_{ab} \\
-        \inner{\Phi_i^a}{\hat{H}_I}{\Phi_j^b} &= \frac{1}{4}\sum_{pqrs} \innerAS{pq}{\hat{v}}{rs}(\delta_{ir}\delta_{ap}\delta_{qj}\delta_{sb} - \delta_{ir}\delta_{aq}\delta_{pj}\delta_{sb} + \delta_{is}\delta_{aq}\delta_{pj}\delta_{rb} - \delta_{is}\delta_{ap}\delta_{qj}\delta_{rb}) \\ &+ \sum_{pqk} \innerAS{pk}{\hat{v}}{qk}(\delta_{ij}\delta_{ap}\delta_{qb} - \delta_{iq}\delta_{ab}\delta_{pj}) \\
-        &+ \frac{1}{2}\sum_{kl}\innerAS{kl}{\hat{v}}{kl}\delta_{ij}\delta_{ab} \\
-        &= \innerAS{aj}{\hat{v}}{ib} + \sum_k \left( \innerAS{ak}{\hat{v}}{bk}\delta_{ij}-\innerAS{jk}{\hat{v}}{ik}\delta_{ab}\right) + \frac{1}{2}\sum_{kl}\innerAS{kl}{\hat{v}}{kl}\delta_{ij}\delta_{ab}  
-    \end{align*}
+    \begin{align}
+        \inner{\Phi_i^a}{\hat{H}_0}{\Phi_j^b} &= \sum_{pq} \inner{p}{\hnull}{q} (\delta_{ij}\delta_{ap}\delta_{qb} - \delta_{iq}\delta_{ab}\delta_{pj}) + \sum_k \inner{k}{\hnull}{k} \delta_{ij}\delta_{ab} \nonumber\\
+        &= \inner{a}{\hnull}{b}\delta_{ij} - \inner{j}{\hnull}{i}\delta_{ab} + \sum_{k} \inner{k}{\hnull}{k} \delta_{ij}\delta_{ab} \label{eq:phi_ia_phi_jb_H0}\\
+        \inner{\Phi_i^a}{\hat{H}_I}{\Phi_j^b} &= \frac{1}{4}\sum_{pqrs} \innerAS{pq}{\hat{v}}{rs}(\delta_{ir}\delta_{ap}\delta_{qj}\delta_{sb} - \delta_{ir}\delta_{aq}\delta_{pj}\delta_{sb} + \delta_{is}\delta_{aq}\delta_{pj}\delta_{rb} - \delta_{is}\delta_{ap}\delta_{qj}\delta_{rb}) \nonumber \\ 
+        &+ \sum_{pqk} \innerAS{pk}{\hat{v}}{qk}(\delta_{ij}\delta_{ap}\delta_{qb} - \delta_{iq}\delta_{ab}\delta_{pj}) \nonumber\\
+        &+ \frac{1}{2}\sum_{kl}\innerAS{kl}{\hat{v}}{kl}\delta_{ij}\delta_{ab} \nonumber\\
+        &= \innerAS{aj}{\hat{v}}{ib} + \sum_k \left( \innerAS{ak}{\hat{v}}{bk}\delta_{ij}-\innerAS{jk}{\hat{v}}{ik}\delta_{ab}\right) + \frac{1}{2}\sum_{kl}\innerAS{kl}{\hat{v}}{kl}\delta_{ij}\delta_{ab} \label{eq:phi_ia_phi_jb_HI}  
+    \end{align}
+
+    DIAGRAMS
+
+    Now we have everything we need to construct the Hamiltonian matrix containing all single particle excitations. This must include the ground state, as well as the 4 possible single particle excitations, giving a $5 \times 5$ matrix. The ordering chosen here is first the ground state, thereafter excitations with increasing $n$ with alternating spin, starting with up. Explicitly $\gs,\exed{\ups{1}}{\ups{2}}, \exed{\downs{1}}{\downs{2}}, \exed{\ups{1}}{\ups{3}}, \exed{\downs{1}}{\downs{3}}$
 
 \subsection*{Part d), Moving to the Beryllium atom.}
+    We now wish to look at the $Z = 4$ Beryllium atom. Instead of having 2 electrons, we now have 4. Using the logic as for the Helium atom, an ansatz for the ground state can now be written as:
+
+    \begin{align*}
+        \gs = \crt{\ups{2}}\crt{\downs{2}}\crt{\ups{1}}\crt{\downs{1}} \vac       
+    \end{align*}
+    The one-particle-one-hole excitations can be found through the same procedure:
+    \begin{align*}
+        \exed{i}{a} = \crt{a}\ani{i}\gs
+    \end{align*}
+    Now we can remove any of the four electrons $i \in \set{(\upst{1}), (\downst{1}), (\upst{2}), (\downst{2})}$. However, we can only place it $n = 3$, and due to the $M_s = 0$ constraint, it must have the same spin as the removed electron. This again leaves us with four one-particle-one-hole states:
+    
+    \begin{align*}
+        \exed{\ups{1}}{\ups{3}} = \crt{\ups{3}}\ani{\ups{1}}\gs\hspace{30px}&\exed{\downs{1}}{\downs{3}} = \crt{\downs{3}}\ani{\downs{1}}\gs \\
+        \exed{\ups{2}}{\ups{3}} = \crt{\ups{3}}\ani{\ups{2}}\gs\hspace{30px}&\exed{\downs{2}}{\downs{3}} = \crt{\downs{3}}\ani{\downs{2}}\gs
+    \end{align*}
+    Previously we set the Fermi level at $n = 1$. Since we want to use the matrix elements derived for the Helium atom, we now simply move this to $n = 2$, such that the Beryllium $\gs$ becomes our zero-particle-zero-hole state.    
+
 \subsection*{Part e), Hartree-Fock.}
 \subsection*{Part f), The Hartree-Fock matrices.}
 \subsection*{Part g), Writing a Hartree-Fock code.}
