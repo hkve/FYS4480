@@ -3,6 +3,26 @@ import matplotlib.pyplot as plt
 import re
 from sympy import sympify
 
+class Indicies:
+    def __init__(self, n, up):
+        self.n = 0
+        self.up = True
+    
+    def __next__(self):
+        if self.up:
+            self.up = False
+            return self
+        else:
+            self.up = True
+            self.n += 1
+            return self
+
+    def __str__(self):
+        return f"n={self.n+1}" + "+"*self.up + "-"*(not self.up)
+
+    def __iter__(self):
+        return self.n, self.up
+    
 class MatrixElements:
     def __init__(self, N=3, Z=2):
         self.elms = np.zeros(shape=(N,N,N,N))
