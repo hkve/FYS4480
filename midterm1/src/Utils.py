@@ -1,3 +1,5 @@
+import enum
+from socket import MsgFlag
 import numpy as np
 import matplotlib.pyplot as plt
 import re
@@ -21,7 +23,7 @@ class Indices:
 
     def above(self):
         i, up = self.nF +1, True
-        while i <= self.roof:
+        while i < self.roof:
             yield i, up
             
             if up:
@@ -106,7 +108,7 @@ class Atom:
         for j in self.Fermi.below():
             elm += (M.getAS(i,j,a,j))
         return elm
-
+    
     def fill_phi_ia_phi_ib(self, i, a, j, b):
         M = self.M
         Z = M.Z
@@ -157,6 +159,99 @@ class Atom:
         for i in range(self.D):
             for j in range(self.D):
                 to_return += f"{self.H[i,j]:6.3f} "
+
+            to_return += "\n"
+
+        return to_return
+
+
+class HartreeFock:
+    def __init__(self, M, Fermi, Ns=6, Np=2):
+        self.M = M
+        self.Fermi = Fermi
+        
+        self.Ns = Ns
+        self.Np = Np
+
+    def density_matrix_(self, C):
+        rho = np.zeros_like(C)
+
+        for beta in range(self.Ns):
+            for delta in range(self.Ns):
+                s = 0
+                for q in range(self.Np):
+                    s += C[q, beta] * C[q, delta]
+                rho[beta, delta ] = s
+
+        return rho
+
+
+    def solve(self, tol=1e-8, maxiters=1000):
+        M, Fermi = self.M, self.Fermi
+        Ns, Np = self.Ns, self.Np
+        All = [_ for _ in Fermi.below()] + [_ for _ in Fermi.above()]
+
+        diff = 1
+
+        C = np.eye(Ns, Ns)
+        rho = self.density_matrix_(C)
+        
+        iters = 0
+
+        sp_E_old = np.zeros(Ns)    
+        sp_E_new = np.zeros(Ns)
+        while iters < maxiters and diff > tol:
+            HFmat = np.zeros_like(rho)
+
+            for l, lmbda in enumerate(All):
+                for g, gamma in enumerate(All):
+                    elmSum = (l==g)*M.get_onebody(lmbda)
+
+                    for b, beta in enumerate(Fermi.below()):
+                        for d, delta in enumerate(Fermi.below()):
+                            elmSum += rho[b,d]*M.getAS(lmbda, beta, gamma, delta)
+
+                    HFmat[l,g] = elmSum
+
+            sp_E_new, C = np.linalg.eigh(HFmat)
+            rho = self.density_matrix_(C)
+
+            diff = 0
+            for i in range(Ns):
+                diff += abs(sp_E_new[i]-sp_E_old[i])
+            diff /= Ns
+            sp_E_old = sp_E_new
+            iters += 1
+
+        self.HFmat_conv = HFmat
+        self.evaluateE(C)
+
+    def evaluateE(self, C):
+        M, Fermi = self.M, self.Fermi
+        Np = self.Np
+        self.E_gs = 0
+
+        for p in range(Np):
+            for a, alpha in enumerate(Fermi.below()):
+                self.E_gs += C[p, a] * C[p, a] * M.get_onebody(alpha) 
+
+        E_gs_2body = 0
+        for p in range(Np):
+            for q in range(Np):
+                for a, alpha in enumerate(Fermi.below()):
+                    for b, beta in enumerate(Fermi.below()):
+                        for g, gamma in enumerate(Fermi.below()):
+                            for d, delta in enumerate(Fermi.below()):
+                                E_gs_2body += C[p,a]*C[q,b]*C[p,g]*C[q,d]*M.getAS(alpha, beta, gamma, delta)
+
+        self.E_gs = 0.5*E_gs_2body
+
+
+    def __str__(self):
+        to_return = ""
+        for i in range(self.Ns):
+            for j in range(self.Ns):
+                to_return += f"{self.HFmat_conv[i,j]:6.3f} "
 
             to_return += "\n"
 
