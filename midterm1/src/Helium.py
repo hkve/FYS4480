@@ -14,7 +14,8 @@ Fermi = Indices(0)
 
 
 HaFo = HartreeFock(M, Fermi)
-HaFo.solve(maxiters=1000)
+HaFo.solve(tol=1e-16, maxiters=10000)
+print(HaFo)
 print(HaFo.E_gs)
 
 # hf0 = np.zeros(shape=(6,6))

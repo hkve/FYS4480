@@ -176,12 +176,12 @@ class HartreeFock:
     def density_matrix_(self, C):
         rho = np.zeros_like(C)
 
-        for beta in range(self.Ns):
-            for delta in range(self.Ns):
+        for b in range(self.Ns):
+            for d in range(self.Ns):
                 s = 0
                 for q in range(self.Np):
-                    s += C[q, beta] * C[q, delta]
-                rho[beta, delta ] = s
+                    s += C[b, q] * C[d, q]
+                rho[b, d] = s
 
         return rho
 
@@ -207,8 +207,8 @@ class HartreeFock:
                 for g, gamma in enumerate(All):
                     elmSum = (l==g)*M.get_onebody(lmbda)
 
-                    for b, beta in enumerate(Fermi.below()):
-                        for d, delta in enumerate(Fermi.below()):
+                    for b, beta in enumerate(All):
+                        for d, delta in enumerate(All):
                             elmSum += rho[b,d]*M.getAS(lmbda, beta, gamma, delta)
 
                     HFmat[l,g] = elmSum
@@ -222,6 +222,8 @@ class HartreeFock:
             diff /= Ns
             sp_E_old = sp_E_new
             iters += 1
+            if( iters%100 == 0):
+                print(diff)
 
         self.HFmat_conv = HFmat
         self.evaluateE(C)
@@ -230,21 +232,21 @@ class HartreeFock:
         M, Fermi = self.M, self.Fermi
         Np = self.Np
         self.E_gs = 0
-
-        for p in range(Np):
-            for a, alpha in enumerate(Fermi.below()):
-                self.E_gs += C[p, a] * C[p, a] * M.get_onebody(alpha) 
+        All = [_ for _ in Fermi.below()] + [_ for _ in Fermi.above()]
 
         E_gs_2body = 0
         for p in range(Np):
-            for q in range(Np):
-                for a, alpha in enumerate(Fermi.below()):
-                    for b, beta in enumerate(Fermi.below()):
-                        for g, gamma in enumerate(Fermi.below()):
-                            for d, delta in enumerate(Fermi.below()):
+            for a, alpha in enumerate(All):
+                for b, beta in enumerate(All):
+                    if(a == b):
+                        self.E_gs += C[p, a] * C[p, b] * M.get_onebody(alpha) 
+                    
+                    for q in range(Np):
+                        for g, gamma in enumerate(All):
+                            for d, delta in enumerate(All):
                                 E_gs_2body += C[p,a]*C[q,b]*C[p,g]*C[q,d]*M.getAS(alpha, beta, gamma, delta)
 
-        self.E_gs = 0.5*E_gs_2body
+        self.E_gs += 0.5*E_gs_2body
 
 
     def __str__(self):
