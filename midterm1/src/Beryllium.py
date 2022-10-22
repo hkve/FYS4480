@@ -12,7 +12,7 @@ Fermi = Indices(1)
 # Beryllium.solve()
 # print(Beryllium.E)
 
-HaFo = HartreeFock(M, Fermi, Np=4)
+HaFo = HartreeFock(M, Np=4)
 HaFo.solve(tol=1e-8, maxiters=1000)
 print(HaFo)
 print(HaFo.E_gs)

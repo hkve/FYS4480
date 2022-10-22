@@ -166,12 +166,15 @@ class Atom:
 
 
 class HartreeFock:
-    def __init__(self, M, Fermi, Ns=6, Np=2):
+    def __init__(self, M, Ns=6, Np=2):
         self.M = M
-        self.Fermi = Fermi
+
+        Fermi = Indices(0)
+        self.States = [_ for _ in Fermi.below()] + [_ for _ in Fermi.above()]
         
         self.Ns = Ns
         self.Np = Np
+
 
     def density_matrix_(self, C):
         rho = np.zeros_like(C)
@@ -187,12 +190,10 @@ class HartreeFock:
 
 
     def solve(self, tol=1e-8, maxiters=1000):
-        M, Fermi = self.M, self.Fermi
+        M, States = self.M, self.States
         Ns, Np = self.Ns, self.Np
-        All = [_ for _ in Fermi.below()] + [_ for _ in Fermi.above()]
 
         diff = 1
-
         C = np.eye(Ns, Ns)
         rho = self.density_matrix_(C)
         
@@ -203,12 +204,12 @@ class HartreeFock:
         while iters < maxiters and diff > tol:
             HFmat = np.zeros_like(rho)
 
-            for l, lmbda in enumerate(All):
-                for g, gamma in enumerate(All):
+            for l, lmbda in enumerate(States):
+                for g, gamma in enumerate(States):
                     elmSum = (l==g)*M.get_onebody(lmbda)
 
-                    for b, beta in enumerate(All):
-                        for d, delta in enumerate(All):
+                    for b, beta in enumerate(States):
+                        for d, delta in enumerate(States):
                             elmSum += rho[b,d]*M.getAS(lmbda, beta, gamma, delta)
 
                     HFmat[l,g] = elmSum
@@ -216,10 +217,8 @@ class HartreeFock:
             sp_E_new, C = np.linalg.eigh(HFmat)
             rho = self.density_matrix_(C)
 
-            diff = 0
-            for i in range(Ns):
-                diff += abs(sp_E_new[i]-sp_E_old[i])
-            diff /= Ns
+            diff = np.sum(np.abs(sp_E_new-sp_E_old))/Ns
+
             sp_E_old = sp_E_new
             iters += 1
             if( iters%100 == 0):
@@ -229,22 +228,21 @@ class HartreeFock:
         self.evaluateE(C)
 
     def evaluateE(self, C):
-        M, Fermi = self.M, self.Fermi
+        M, States = self.M, self.States
         Np = self.Np
         self.E_gs = 0
-        All = [_ for _ in Fermi.below()] + [_ for _ in Fermi.above()]
 
         E_gs_2body = 0
         for p in range(Np):
-            for a, alpha in enumerate(All):
-                for b, beta in enumerate(All):
+            for a, alpha in enumerate(States):
+                for b, beta in enumerate(States):
                     if(a == b):
-                        self.E_gs += C[p, a] * C[p, b] * M.get_onebody(alpha) 
+                        self.E_gs += C[a,p] * C[b,p] * M.get_onebody(alpha) 
                     
                     for q in range(Np):
-                        for g, gamma in enumerate(All):
-                            for d, delta in enumerate(All):
-                                E_gs_2body += C[p,a]*C[q,b]*C[p,g]*C[q,d]*M.getAS(alpha, beta, gamma, delta)
+                        for g, gamma in enumerate(States):
+                            for d, delta in enumerate(States):
+                                E_gs_2body += C[a,p]*C[b,q]*C[g,p]*C[d,q]*M.getAS(alpha, beta, gamma, delta)
 
         self.E_gs += 0.5*E_gs_2body
 

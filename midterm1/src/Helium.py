@@ -13,7 +13,7 @@ Fermi = Indices(0)
 # print(Helium.E)
 
 
-HaFo = HartreeFock(M, Fermi)
+HaFo = HartreeFock(M)
 HaFo.solve(tol=1e-16, maxiters=10000)
 print(HaFo)
 print(HaFo.E_gs)
