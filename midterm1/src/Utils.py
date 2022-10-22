@@ -58,11 +58,11 @@ class MatrixElements:
         
         return self
 
-    def get_onebody(self, i):
+    def get_1body(self, i):
         ni, si = i
         return -self.Z**2 / (2*(ni+1)**2)
 
-    def get(self, i,j,k,l):
+    def get_2body(self, i,j,k,l):
         ni, si = i
         nj, sj = j
         nk, sk = k
@@ -73,7 +73,7 @@ class MatrixElements:
         return self.elms[ni, nj, nk, nl]*spin_delta
         
     def getAS(self, i, j, k, l):
-        return (self.get(i,j,k,l)-self.get(i,j,l,k))
+        return (self.get_2body(i,j,k,l)-self.get_2body(i,j,l,k))
 
 class Atom:
     def __init__(self, M, Fermi, i_order, a_order, D=5):
@@ -92,7 +92,7 @@ class Atom:
         
         for i in self.Fermi.below():
             # <i|h01|i>
-            elm += M.get_onebody(i) 
+            elm += M.get_1body(i) 
 
             for j in self.Fermi.below():
                 # 0.5*(<ij|M|ij>_AS)
@@ -119,12 +119,12 @@ class Atom:
         for k in self.Fermi.below():
             T2 += M.getAS(a,k,b,k)*(i==j) - M.getAS(j,k,i,k)*(a==b)
 
-        T3 = (i==j)*(a==b)*(M.get_onebody(a) - M.get_onebody(i)) 
+        T3 = (i==j)*(a==b)*(M.get_1body(a) - M.get_1body(i)) 
 
         T4 = 0
         if (i==j) and (a==b):
             for k in self.Fermi.below():
-                T4 += M.get_onebody(k)
+                T4 += M.get_1body(k)
                 
                 for l in self.Fermi.below():
                     T4 += 0.5*M.getAS(k,l,k,l)
@@ -206,7 +206,7 @@ class HartreeFock:
 
             # SP mat elms. Works since the new basis is also ortonormal
             for l, lmbda in enumerate(States):
-                HFmat[l,l] = M.get_onebody(lmbda)
+                HFmat[l,l] = M.get_1body(lmbda)
 
             # Construct HFmat of l,g sum
             for l, lmbda in enumerate(States):
@@ -236,7 +236,7 @@ class HartreeFock:
 
         E_gs_1body = 0
         for a, alpha in enumerate(States):
-            E_gs_1body += rho[a,a] * M.get_onebody(alpha)
+            E_gs_1body += rho[a,a] * M.get_1body(alpha)
 
         E_gs_2body = 0
         for a, alpha in enumerate(States):
