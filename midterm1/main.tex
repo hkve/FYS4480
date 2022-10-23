@@ -56,7 +56,7 @@
 \maketitle
 
 \subsection*{Practical information}
-    The developed and used in this midterm can be found at  
+    The developed and used code for this midterm can be found at \url{https://github.com/hkve/FYS4480/tree/main/midterm1} and is written in \textbf{Python3}.
 
 \subsection*{Part a), setting up the basis.}
     Since we use hydrogen-like single particle states, we consider the quantum numbers $nlm_l sm_s$. We constrain ourselves to only look at $n = 1,2,3$, with $l = 0$ implying $m_l = 0$ In addition, since electrons are fermions, all single particle states (SPS) must have $s = \sfrac{1}{2}$, giving two possible spin projections $m_s = \sfrac{1}{2}, -\sfrac{1}{2}$, which we will write as $\uparrow, \downarrow$ respectively. Due to these restrictions, the only relevant quantum numbers are $nm_s$. Using the creation and annihilation operators ($\crt{nm_s}, \ani{nm_s}$) from the second quantization formalism, we can construct all six SPS as excitations of the vacuum state $\vac$:
@@ -253,11 +253,32 @@
         &= \sum_{\beta} C_{t\beta} \inner{\lambda}{\hnull}{\beta} + \frac{1}{2}\sum_j \sum_{\beta\gamma\delta} C^*_{j\beta} C_{t\gamma} C_{j\delta} \innerAS{\lambda\beta}{\hat{v}}{\gamma\delta} + \frac{1}{2} \sum_i \sum_{\alpha\gamma\delta} C^*_{i\alpha} C_{i\gamma} C_{t\delta} \innerAS{\alpha\lambda}{\hat{v}}{\gamma\delta} \\
         &= \sum_\gamma C_{t\gamma} \inner{\lambda}{\hnull}{\gamma} + \sum_j \sum_{\beta\gamma\delta} C^*_{j\beta} C_{t\gamma} C_{j\delta} \innerAS{\lambda\beta}{\hat{v}}{\gamma\delta}
     \end{align*}
-    Where over the last equality the summation index changes $\beta \rightarrow \gamma$ for the one body matrix elements has been preformed, in addition to $i \rightarrow j, \alpha \rightarrow \beta, \delta \leftrightarrow \gamma$ for the second term containing the two body matrix elements.  
+    Where over the last equality the summation index changes $\beta \rightarrow \gamma$ for the one body matrix elements has been preformed, in addition to $i \rightarrow j, \alpha \rightarrow \beta, \delta \leftrightarrow \gamma$ for the second term containing the two body matrix elements. Lastly we insert back into equation \eqref{eq:HF_optimizer} and pull out the sum over $\gamma$:
 
-\subsection*{Part f), The Hartree-Fock matrices.}
+    \begin{gather}
+        \pdv{E}{C^*_{t\lambda}} = \epsilon_t C_{t\lambda} \nonumber \\
+        \sum_\gamma \left(\inner{\lambda}{\hnull}{\gamma} + \sum_j \sum_{\beta\delta} C^*_{j\beta} C_{j\delta} \innerAS{\lambda\beta}{\hat{v}}{\gamma\delta}\right)C_{t\gamma} = \epsilon_t C_{t\lambda} \nonumber\\
+        \sum_{\gamma} \hafo{h_{\lambda\gamma}} C_{t\gamma} = \epsilon_t C_{t\lambda} \label{eq:HF_matrix_equation}
+    \end{gather}
+    Where we have defined:
+    \begin{align*}
+        \hafo{h_{\lambda\gamma}} \equiv \inner{\lambda}{\hnull}{\gamma} + \sum_{\beta\delta} \rho_{\beta\gamma} \innerAS{\lambda\beta}{\hat{v}}{\gamma\delta},\hspace{20px}\rho_{\beta \gamma} \equiv \sum_i C^*_{i\beta} C_{i\gamma}
+    \end{align*}
+    Looking at equation \eqref{eq:HF_matrix_equation} we see that we have obtained an eigenvalue equation, where $\hafo{h}$ is our Hartree-Fock matrix, the columns of $C$ being eigenvectors corresponding to eigenvalue $\epsilon_t$. GIVE A SHORT OVERVIEW OF ALGO, DIAGRAMS, INTERPRETATION
+
+    \subsection*{Part f), The Hartree-Fock matrices.}
+
 \subsection*{Part g), Writing a Hartree-Fock code.}
-
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|l|l|l|l}
+    Atom      & $E_0$ & $E_{\text{CI}}$ & $E_{\text{HF}}$ & $E$ \\
+    \hline
+    Helium    & -2.7500     & -2.8385    &   -2.8311  & -2.9037    \\
+    Beryllium & -13.7160     & -14.3621    &  -14.5083  &   -14.6674 
+    \end{tabular}
+    \caption{kld}
+\end{table}
 
 \begin{appendix}
     \section{Appendix entry}

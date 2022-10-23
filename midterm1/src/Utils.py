@@ -183,7 +183,7 @@ class HartreeFock:
             for d in range(self.Ns):
                 s = 0
                 for q in range(self.Np):
-                    s += C[b, q] * C[d, q]
+                    s += C[q,b] * C[q,d]
                 rho[b, d] = s
 
         return rho
@@ -221,7 +221,7 @@ class HartreeFock:
                     HFmat[l,g] += elmSum
 
             sp_E_new, C = np.linalg.eigh(HFmat)
-            rho = self.density_matrix_(C)
+            rho = self.density_matrix_(C.T)
 
             diff = np.sum(np.abs(sp_E_new-sp_E_old))/Ns
 
@@ -229,6 +229,9 @@ class HartreeFock:
             iters += 1
 
         self.HFmat_conv = HFmat
+        self.iters_conv = iters
+        self.diff_conv = diff
+        self.sp_conv = sp_E_new
         self.evaluate_Energy_(rho)
 
     def evaluate_Energy_(self, rho):
