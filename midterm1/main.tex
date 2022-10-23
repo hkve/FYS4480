@@ -132,7 +132,7 @@
     \begin{align*}
         \inner{\alpha\sigma\beta\tau}{v}{\beta\mu\gamma\nu} = \inner{\alpha \beta}{\hat{v}}{\gamma \delta} \delta_{\sigma\mu}\delta_{\tau\nu}
     \end{align*}
-    With $\alpha, \beta, \gamma, \delta$ referring to the $n$ (spatial) quantum number and $\sigma, \tau, \mu, \nu$ referring to the spin projection $m_s$.
+    With $\alpha, \beta, \gamma, \delta$ referring to the $n$ (spatial) quantum number and $\sigma, \tau, \mu, \nu$ referring to the spin projection $m_s$. Evaluating this expression for $Z=2$ gives $E[\Phi_0] = -2.7500$. 
 
     ADD PLOT HERE
 
@@ -162,7 +162,7 @@
 
     DIAGRAMS
 
-    Now we have everything we need to construct the Hamiltonian matrix containing all single particle excitations. This must include the ground state, as well as the 4 possible single particle excitations, giving a $5 \times 5$ matrix. The ordering chosen here is first the ground state, thereafter excitations with increasing $n$ with alternating spin, starting with up. Explicitly $\gs,\exed{\ups{1}}{\ups{2}}, \exed{\downs{1}}{\downs{2}}, \exed{\ups{1}}{\ups{3}}, \exed{\downs{1}}{\downs{3}}$
+    Now we have everything we need to construct the Hamiltonian matrix containing all single particle excitations. This must include the ground state, as well as the 4 possible single particle excitations, giving a $5 \times 5$ matrix. The ordering chosen here is first the ground state, thereafter excitations with increasing $n$ with alternating spin, starting with up. Explicitly $\gs,\exed{\ups{1}}{\ups{2}}, \exed{\downs{1}}{\downs{2}}, \exed{\ups{1}}{\ups{3}}, \exed{\downs{1}}{\downs{3}}$. After matrix construction and inversion, the ground state energy is found to be $\approx -2.8385$. Since the exact energy using our Hamiltonian is $-2.9037$, we note that our configuration interaction value is more precise than $E[\Phi_0] = -2.7500$ as calculated in the previous task. This is to be expected since we include a larger part of the Hilbert space. In addition, an even better value would be expected if two-particle-two-hole excitations were included. If even better values would be needed, relaxing our assumptions of $l=0, M_s = 0$ would be needed.     
 
 \subsection*{Part d), Moving to the Beryllium atom.}
     We now wish to look at the $Z = 4$ Beryllium atom. Instead of having 2 electrons, we now have 4. Using the logic as for the Helium atom, an ansatz for the ground state can now be written as:
@@ -180,9 +180,33 @@
         \exed{\ups{1}}{\ups{3}} = \crt{\ups{3}}\ani{\ups{1}}\gs\hspace{30px}&\exed{\downs{1}}{\downs{3}} = \crt{\downs{3}}\ani{\downs{1}}\gs \\
         \exed{\ups{2}}{\ups{3}} = \crt{\ups{3}}\ani{\ups{2}}\gs\hspace{30px}&\exed{\downs{2}}{\downs{3}} = \crt{\downs{3}}\ani{\downs{2}}\gs
     \end{align*}
-    Previously we set the Fermi level at $n = 1$. Since we want to use the matrix elements derived for the Helium atom, we now simply move this to $n = 2$, such that the Beryllium $\gs$ becomes our zero-particle-zero-hole state.    
+    Previously we set the Fermi level at $n = 1$. Since we want to use the matrix elements derived for the Helium atom, we now simply move this to $n = 2$, such that the Beryllium $\gs$ becomes our zero-particle-zero-hole state. Using equation \eqref{eq:phi0_phi0} we can again find an expression for $E[\Phi_0]$ as a function of $Z$. Since we have moved our Fermi level up to $n = 2$, the single sum over $i$ now contains 4 terms, yielding:
+    \begin{align*}
+        \sum_{i} \inner{i}{\hnull}{i} = 2 \cdot - \frac{Z^2}{2} + 2 \cdot - \frac{Z^2}{8} = -\frac{5Z^2}{4}
+    \end{align*}
+    For the same reason, the double sum over $i,j$ now has 16 terms. Due to the antisymmetric matrix element, the terms $n = n'$ and $m_s = m_s'$ yields zero. There are 4 such terms, giving 12 relevant terms to consider in this sum. 
+    
+    Firstly, the only way to get a nonzero contribution from the exchange term is if the spins align ($m_s = m_s'$) and the spatial quantum number does not $n \neq n'$. This gives the possibilities $n = 1, n'=2$ and $n' = 2, n=1$. We also have to consider that this can happen for both $\uparrow \uparrow$ and $\downarrow\downarrow$. Using the notation $v_{ijkl} = \inner{n_i n_j}{\hat{v}}{n_k n_l}$ we write this contribution as:
+    
+    \begin{align*}
+        \sum_{ij} \innerAS{ij}{\hat{v}}{ij} \supset 2(v_{1212} - v_{1221}) + 2(v_{2121}-v_{2112})
+    \end{align*}
+    We now have 8 terms left in the sum to take care of. Firstly, in the case $n=n'=1,2$ we get direct terms for $m_s \neq m_s'$. Since the elements should be equal for $\uparrow\downarrow$ and $\downarrow\uparrow$, we get:
+    \begin{align*}
+        \sum_{ij} \innerAS{ij}{\hat{v}}{ij} \supset 2 v_{1111} + 2v_{2222}
+    \end{align*}
+    This takes care of 4 more terms in the sum, giving only 4 left. These correspond to the terms $n \neq n'$ and $m_s \neq m_s'$, again only giving a contribution from the direct term. Explicitly this is $n = 1, n' = 2$ and $n = 2, n' = 1$ with the same alternating spins as the previous term, giving:
+    \begin{align*}
+        \sum_{ij} \innerAS{ij}{\hat{v}}{ij} \supset 2v_{1212} + 2v_{2121}
+    \end{align*}
+    Collecting the single sum term, in addition to the 12 nonzero contributions from the double sum gives:
+    \begin{align*}
+        E[\Phi_0] = -\frac{5Z^2}{4} + v_{1111} + v_{2222} + 2v_{1212} - v_{1221} + 2v_{2121} - v_{2112}  
+    \end{align*} 
+    Where every $v_{ijkl}$ term is a function of $Z$, given as the matrix elements present at the end of the task sheet. For $Z = 4$ this gives $E[\Phi_0] \approx -13.7160$. When constructing the matrix for the configuration interaction calculation, we again have to choose an ordering. Following the convention used for the Helium atom (with increasing $n$, alternating spin) we get explicitly $\gs, \exed{\ups{1}}{\ups{3}}, \exed{\downs{1}}{\downs{3}}, \exed{\ups{2}}{\ups{3}}, \exed{\downs{2}}{\downs{3}}$. After matrix construction and inversion the ground state energy is found to be $\approx -14.3621$. Since the exact energy with our Hamiltonian is $-14.6674$, we see that our configuration interaction again outperforms $E[\Phi_0]$ as expected. To improve this value we could perform the same steps as discussed for the Helium atom, but now we also have the possibilities to include three-particle-three-hole and four-particle-four-hole excitations. 
 
 \subsection*{Part e), Hartree-Fock.}
+    
 \subsection*{Part f), The Hartree-Fock matrices.}
 \subsection*{Part g), Writing a Hartree-Fock code.}
 
