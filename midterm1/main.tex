@@ -46,6 +46,7 @@
 \newcommand{\crt}[1]{a_{#1}^{\dagger}}
 \newcommand{\ani}[1]{a_{#1}}
 
+\newcommand{\hafo}[1]{#1^{\text{HF}}}
 
 \title{FYS4480 First Midterm}
 \author{Håkon Kvernmoen}
@@ -206,7 +207,43 @@
     Where every $v_{ijkl}$ term is a function of $Z$, given as the matrix elements present at the end of the task sheet. For $Z = 4$ this gives $E[\Phi_0] \approx -13.7160$. When constructing the matrix for the configuration interaction calculation, we again have to choose an ordering. Following the convention used for the Helium atom (with increasing $n$, alternating spin) we get explicitly $\gs, \exed{\ups{1}}{\ups{3}}, \exed{\downs{1}}{\downs{3}}, \exed{\ups{2}}{\ups{3}}, \exed{\downs{2}}{\downs{3}}$. After matrix construction and inversion the ground state energy is found to be $\approx -14.3621$. Since the exact energy with our Hamiltonian is $-14.6674$, we see that our configuration interaction again outperforms $E[\Phi_0]$ as expected. To improve this value we could perform the same steps as discussed for the Helium atom, but now we also have the possibilities to include three-particle-three-hole and four-particle-four-hole excitations. 
 
 \subsection*{Part e), Hartree-Fock.}
+    We now wish to use our equation for the ground state energy expectation value \eqref{eq:phi0_phi0} to estimate the ground energy in a new way. By preforming unitary transformation of our initial basis, the goal is to find the transformation that minimizes $E[\Phi_0]$. 
     
+    Firstly, we note our old basis (using the hydrogen wave functions) using Greek letters $\alpha, \beta ...$ and the new Hartree-Fock basis using Roman letters $i, j, ...$. Since the two are related by a unitary transformation, we can go from old to new using:
+    \begin{align*}
+        \ket{p} = \sum_{\alpha} C_{p\alpha} \ket{\alpha}, \hspace{20px} \ket{pq} = \sum_{\alpha \beta} C_{p\alpha} C_{q\beta} \ket{\alpha\beta}
+    \end{align*}
+    With $C$ being our unitary transformation matrix. In important factor here, is that since the old basis is orthonormal and the change-of-basis is preformed using an unitary transformation, the new basis is also orthonormal:
+    \begin{align*}
+        \braket{p|q} = \sum_{\alpha\beta} C^*_{p\alpha}C_{q\beta}\braket{\alpha|\beta} = \sum_{\alpha\beta} C^*_{p\alpha}C_{q\beta}\delta_{\alpha\beta} = \sum_{\alpha} C^*_{p\alpha}C_{q\alpha} = \delta_{pq} 
+    \end{align*}
+    Since $C^\dagger C = I$. We do not know how this new basis looks yet, but we know that eq. \eqref{eq:phi0_phi0} can be expressed in this new basis. In addition, knowing the transformation back to the old basis, we find:
+    \begin{align}
+        E[\hafo{\Phi_0}] &= \sum_{i} \inner{i}{\hnull}{i} + \frac{1}{2} \sum_{ij} \innerAS{ij}{\hat{v}}{ij} \nonumber\\
+        &= \sum_i \sum_{\alpha\beta} C^*_{i\alpha}C^*_{i\beta} \inner{\alpha}{\hnull}{\beta} + \frac{1}{2}\sum_{ij}\sum_{\alpha\beta\gamma\delta} C^*_{i\alpha}C^*_{j\beta}C_{i\gamma}C_{j\delta} \innerAS{\alpha\beta}{\hat{v}}{\gamma\delta} \label{eq:Egs_HF}
+    \end{align} 
+    Note that the first line in the above equation is \text{not} the same as in eq. \eqref{eq:phi0_phi0} (despite using the same indices). The sum is still only up the Fermi level (or over the number of particles), but expressed in our new basis (the Hartree-Fock basis). We now define the functional $F[\hafo{\Phi_0}]$ which we wish to minimize:
+    \begin{align}
+        F[\hafo{\Phi_0}] = E[\hafo{\Phi_0}] - \sum_{i} \epsilon_i =  E[\hafo{\Phi_0}] - \sum_{i} \epsilon_i \underbrace{\sum_{\alpha} C^*_{i\alpha}C_{i\alpha}}_{\delta_{ii} = 1}
+    \end{align}
+    Where $\set{\epsilon_i}$ is a set of Lagrange multipliers. We now wish to minimize $F$ with respect to $C^*$. To do this, we view F as a function of $C^*_{t\lambda}$ and $C_{t\lambda}$. Performing the functional (variational) derivative, we find:
+    \begin{align*}
+        \delta F &= \delta E - \delta \left( \sum_i \sum_\alpha \epsilon_i C^*_{i\alpha}C_{i\alpha}\right)\\
+        &= \delta E - \sum_{t\lambda}\left( \sum_i \sum_{\alpha\beta} \epsilon_i \pdv{C^*_{i\alpha}}{C^*_{t\lambda}}  C_{i\alpha}\delta C^*_{i\alpha} + \epsilon_i \pdv{C_{i\alpha}}{C_{t\lambda}}  C^*_{i\alpha}\delta C_{i\alpha} \right) \\
+        &= \delta E - \sum_{t\lambda} C_{t\lambda} \delta C^*_{t\lambda} + C^*_{t\lambda} \delta C_{t\lambda} \\
+        \delta E &= \sum_{t\lambda} \pdv{E}{C^*_{t\lambda}} \delta C^*_{t\lambda} + \pdv{E}{C_{t\lambda}} \delta C_{t\lambda} \\
+        \delta F &= \sum_{t\lambda} \pdv{E}{C^*_{t\lambda}} \delta C^*_{t\lambda} + \pdv{E}{C_{t\lambda}} \delta C_{t\lambda} - C_{t\lambda} \delta C^*_{t\lambda} + C^*_{t\lambda} \delta C_{t\lambda} \\
+        &= \sum_{t\lambda} \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right)\delta C^*_{t\lambda} + \left( \pdv{E}{C_{t\lambda}} - \epsilon_t C^*_{t\lambda} \right)\delta C_{t\lambda} 
+    \end{align*}
+    Now to achieve minimization we set $\delta F = 0$. This assures that we have a stationary point with respect to the coefficients, which we will consider a minimum. Since $C_{t\lambda}$ and $C^*_{t\lambda}$ are independent, they can be varied independently. We choose to look at the variation in $C^*_{t\lambda}$. Since $\delta C^*_{t\lambda}$ is a nonzero variation, the terms inside the parenthesis must be zero, giving:      
+    
+    \begin{align*}
+        \delta F &= \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right)\delta C^*_{t\lambda} + \left( \pdv{E}{C_{t\lambda}} - \epsilon_t C^*_{t\lambda} \right)\delta C_{t\lambda} = 0 \\
+        &\Rightarrow \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right) = 0
+    \end{align*}
+    Now all we have to do is to perform the derivative of $E[\hafo{\Phi_0}]$:
+
+
 \subsection*{Part f), The Hartree-Fock matrices.}
 \subsection*{Part g), Writing a Hartree-Fock code.}
 
