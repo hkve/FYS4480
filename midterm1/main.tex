@@ -55,6 +55,9 @@
 \begin{document}
 \maketitle
 
+\subsection*{Practical information}
+    The developed and used in this midterm can be found at  
+
 \subsection*{Part a), setting up the basis.}
     Since we use hydrogen-like single particle states, we consider the quantum numbers $nlm_l sm_s$. We constrain ourselves to only look at $n = 1,2,3$, with $l = 0$ implying $m_l = 0$ In addition, since electrons are fermions, all single particle states (SPS) must have $s = \sfrac{1}{2}$, giving two possible spin projections $m_s = \sfrac{1}{2}, -\sfrac{1}{2}$, which we will write as $\uparrow, \downarrow$ respectively. Due to these restrictions, the only relevant quantum numbers are $nm_s$. Using the creation and annihilation operators ($\crt{nm_s}, \ani{nm_s}$) from the second quantization formalism, we can construct all six SPS as excitations of the vacuum state $\vac$:
     
@@ -238,13 +241,19 @@
     \end{align*}
     Now to achieve minimization we set $\delta F = 0$. This assures that we have a stationary point with respect to the coefficients, which we will consider a minimum. Each variation has to separately be equal to zero, thus the minimization must hold for each term in the sum. In addition, since $C_{t\lambda}$ and $C^*_{t\lambda}$ are complex conjugate of each other, setting one of the variations to zero will automatically fulfill the other ($z = 0 \Rightarrow z^* = 0$). We choose to look at the variation in $C^*_{t\lambda}$ as instructed. Since $\delta C^*_{t\lambda}$ is a nonzero variation, the terms inside the parenthesis must be zero, giving:      
     
-    \begin{align*}
-        \delta F &= \sum_{t \lambda} \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right)\delta C^*_{t\lambda} + \left( \pdv{E}{C_{t\lambda}} - \epsilon_t C^*_{t\lambda} \right)\delta C_{t\lambda} = 0 \\
-        &\Rightarrow \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right)\delta C^*_{t\lambda} + \left( \pdv{E}{C_{t\lambda}} - \epsilon_t C^*_{t\lambda} \right)\delta C_{t\lambda} = 0 \\
-        &\Rightarrow \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right) = 0
-    \end{align*}
+    \begin{align}
+        \delta F &= \sum_{t \lambda} \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right)\delta C^*_{t\lambda} + \left( \pdv{E}{C_{t\lambda}} - \epsilon_t C^*_{t\lambda} \right)\delta C_{t\lambda} = 0 \nonumber\\
+        &\Rightarrow \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right)\delta C^*_{t\lambda} + \left( \pdv{E}{C_{t\lambda}} - \epsilon_t C^*_{t\lambda} \right)\delta C_{t\lambda} = 0 \nonumber\\
+        &\Rightarrow \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right) = 0 \label{eq:HF_optimizer}
+    \end{align}
     Now all we have to do is to perform the derivative of $E[\hafo{\Phi_0}]$:
 
+    \begin{align*}
+        \pdv{E}{C^*_{t\lambda}} &= \sum_{i}\sum_{\alpha\beta} \delta_{ti}\delta_{\lambda\alpha} C_{i\beta} \inner{\alpha}{\hnull}{\beta} + \frac{1}{2}\sum_{ij}\sum_{\alpha\beta\gamma\delta} \left( \delta_{ti}\delta_{\lambda\alpha}C^*_{j\beta}C_{i\gamma}C_{j\gamma} + C^*_{i\alpha} \delta_{tj}\delta_{\lambda\beta} C_{i\gamma}C_{j\delta} \right) \innerAS{\alpha\beta}{\hat{v}}{\gamma\delta} \\
+        &= \sum_{\beta} C_{t\beta} \inner{\lambda}{\hnull}{\beta} + \frac{1}{2}\sum_j \sum_{\beta\gamma\delta} C^*_{j\beta} C_{t\gamma} C_{j\delta} \innerAS{\lambda\beta}{\hat{v}}{\gamma\delta} + \frac{1}{2} \sum_i \sum_{\alpha\gamma\delta} C^*_{i\alpha} C_{i\gamma} C_{t\delta} \innerAS{\alpha\lambda}{\hat{v}}{\gamma\delta} \\
+        &= \sum_\gamma C_{t\gamma} \inner{\lambda}{\hnull}{\gamma} + \sum_j \sum_{\beta\gamma\delta} C^*_{j\beta} C_{t\gamma} C_{j\delta} \innerAS{\lambda\beta}{\hat{v}}{\gamma\delta}
+    \end{align*}
+    Where over the last equality the summation index changes $\beta \rightarrow \gamma$ for the one body matrix elements has been preformed, in addition to $i \rightarrow j, \alpha \rightarrow \beta, \delta \leftrightarrow \gamma$ for the second term containing the two body matrix elements.  
 
 \subsection*{Part f), The Hartree-Fock matrices.}
 \subsection*{Part g), Writing a Hartree-Fock code.}
