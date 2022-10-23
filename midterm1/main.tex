@@ -230,15 +230,17 @@
     \begin{align*}
         \delta F &= \delta E - \delta \left( \sum_i \sum_\alpha \epsilon_i C^*_{i\alpha}C_{i\alpha}\right)\\
         &= \delta E - \sum_{t\lambda}\left( \sum_i \sum_{\alpha\beta} \epsilon_i \pdv{C^*_{i\alpha}}{C^*_{t\lambda}}  C_{i\alpha}\delta C^*_{i\alpha} + \epsilon_i \pdv{C_{i\alpha}}{C_{t\lambda}}  C^*_{i\alpha}\delta C_{i\alpha} \right) \\
+        &= \delta E - \sum_{t\lambda}\left( \sum_i \sum_{\alpha\beta} \epsilon_i \delta_{ti}\delta_{\lambda\alpha}  C_{i\alpha}\delta C^*_{i\alpha} + \epsilon_i \delta_{ti}\delta_{\lambda\alpha}  C^*_{i\alpha}\delta C_{i\alpha} \right) \\
         &= \delta E - \sum_{t\lambda} C_{t\lambda} \delta C^*_{t\lambda} + C^*_{t\lambda} \delta C_{t\lambda} \\
         \delta E &= \sum_{t\lambda} \pdv{E}{C^*_{t\lambda}} \delta C^*_{t\lambda} + \pdv{E}{C_{t\lambda}} \delta C_{t\lambda} \\
         \delta F &= \sum_{t\lambda} \pdv{E}{C^*_{t\lambda}} \delta C^*_{t\lambda} + \pdv{E}{C_{t\lambda}} \delta C_{t\lambda} - C_{t\lambda} \delta C^*_{t\lambda} + C^*_{t\lambda} \delta C_{t\lambda} \\
         &= \sum_{t\lambda} \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right)\delta C^*_{t\lambda} + \left( \pdv{E}{C_{t\lambda}} - \epsilon_t C^*_{t\lambda} \right)\delta C_{t\lambda} 
     \end{align*}
-    Now to achieve minimization we set $\delta F = 0$. This assures that we have a stationary point with respect to the coefficients, which we will consider a minimum. Since $C_{t\lambda}$ and $C^*_{t\lambda}$ are independent, they can be varied independently. We choose to look at the variation in $C^*_{t\lambda}$. Since $\delta C^*_{t\lambda}$ is a nonzero variation, the terms inside the parenthesis must be zero, giving:      
+    Now to achieve minimization we set $\delta F = 0$. This assures that we have a stationary point with respect to the coefficients, which we will consider a minimum. Each variation has to separately be equal to zero, thus the minimization must hold for each term in the sum. In addition, since $C_{t\lambda}$ and $C^*_{t\lambda}$ are complex conjugate of each other, setting one of the variations to zero will automatically fulfill the other ($z = 0 \Rightarrow z^* = 0$). We choose to look at the variation in $C^*_{t\lambda}$ as instructed. Since $\delta C^*_{t\lambda}$ is a nonzero variation, the terms inside the parenthesis must be zero, giving:      
     
     \begin{align*}
-        \delta F &= \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right)\delta C^*_{t\lambda} + \left( \pdv{E}{C_{t\lambda}} - \epsilon_t C^*_{t\lambda} \right)\delta C_{t\lambda} = 0 \\
+        \delta F &= \sum_{t \lambda} \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right)\delta C^*_{t\lambda} + \left( \pdv{E}{C_{t\lambda}} - \epsilon_t C^*_{t\lambda} \right)\delta C_{t\lambda} = 0 \\
+        &\Rightarrow \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right)\delta C^*_{t\lambda} + \left( \pdv{E}{C_{t\lambda}} - \epsilon_t C^*_{t\lambda} \right)\delta C_{t\lambda} = 0 \\
         &\Rightarrow \left( \pdv{E}{C^*_{t\lambda}} - \epsilon_t C_{t\lambda} \right) = 0
     \end{align*}
     Now all we have to do is to perform the derivative of $E[\hafo{\Phi_0}]$:
