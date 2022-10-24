@@ -261,24 +261,39 @@
         \sum_{\gamma} \hafo{h_{\lambda\gamma}} C_{t\gamma} = \epsilon_t C_{t\lambda} \label{eq:HF_matrix_equation}
     \end{gather}
     Where we have defined:
-    \begin{align*}
-        \hafo{h_{\lambda\gamma}} \equiv \inner{\lambda}{\hnull}{\gamma} + \sum_{\beta\delta} \rho_{\beta\gamma} \innerAS{\lambda\beta}{\hat{v}}{\gamma\delta},\hspace{20px}\rho_{\beta \gamma} \equiv \sum_i C^*_{i\beta} C_{i\gamma}
-    \end{align*}
-    Looking at equation \eqref{eq:HF_matrix_equation} we see that we have obtained an eigenvalue equation, where $\hafo{h}$ is our Hartree-Fock matrix, the columns of $C$ being eigenvectors corresponding to eigenvalue $\epsilon_t$. GIVE A SHORT OVERVIEW OF ALGO, DIAGRAMS, INTERPRETATION
+    \begin{align}
+        \hafo{h_{\lambda\gamma}} \equiv \inner{\lambda}{\hnull}{\gamma} + \sum_{\beta\delta} \rho_{\beta\delta} \innerAS{\lambda\beta}{\hat{v}}{\gamma\delta},\hspace{20px}\rho_{\beta \delta} \equiv \sum_i C^*_{i\beta} C_{i\delta} \label{eq:HF_matrix}
+    \end{align}
+    Looking at equation \eqref{eq:HF_matrix_equation} we see that we have obtained an eigenvalue equation, where $\hafo{h}$ is our Hartree-Fock matrix, the columns of $C$ being eigenvectors corresponding to eigenvalue $\epsilon_t$. , DIAGRAMS, INTERPRETATION
 
-    \subsection*{Part f), The Hartree-Fock matrices.}
+\subsection*{Part f), The Hartree-Fock matrices.}
+    To solve the eigenvalue equation to obtain our $C_{t\lambda}$ coefficients, we invoke an iterative approach. With an initial guess of $C$ being the identity matrix $C_{t\lambda} = \delta_{t\lambda}$, the density matrix simply becomes the diagonal number operator. Thereafter, we can use the expression for the Hartree-Fock matrix from eq. \eqref{eq:HF_matrix} to fill it. We then invert this matrix, which by the eigenvalue equation from \eqref{eq:HF_matrix_equation} gives us new eigenvectors $C_{t\lambda}'$ and eigenvalues $\epsilon_t'$. Lastly, after the matrix inversion, we can insert our new coefficients $C_{t\lambda}'$ back into the ground state energy expectation value eq. \eqref{eq:Egs_HF}, yielding a (hopefully) better energy than the original $E[\Phi_0]$. 
+    
+    To set up the Hartree-Fock matrix, we again need to choose an ordering. Since the summation indices $\lambda,\gamma$ goes over all single particle states, we now have a $6 \times 6$ matrix. Explicitly, the ordering chosen: $\ket{\upst{1}}, \ket{\downst{1}}, \ket{\upst{2}}, \ket{\downst{2}}, \ket{\upst{3}}, \ket{\downst{3}}$. After the one iteration is performed, we calculate the ground state energy $\hafo{E_1}$ and single particle energies $\epsilon_t$. This is presented in table. 
+    
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{l|l|l|l|l|l|l|l}
+        Atom      &  $\hafo{E_1}$ & $\epsilon_1$ & $\epsilon_2$ & $\epsilon_3$ & $\epsilon_4$ & $\epsilon_5$ & $\epsilon_6$ \\
+        \hline
+        Helium    & -2.8291     & -0.7833    & -0.7833  & 0.0396  & 0.0396 & 0.4535 & 0.4535   \\
+        Beryllium & -14.4998     & -3.9507    &  -3.9507 & -0.1040  &  -0.1040 & 0.8657 & 0.8657 
+        \end{tabular}
+        \caption{Showing the ground state energy after a single Hartree-Fock iteration $\hafo{E_1}$, in addition to the six single particle energies $\epsilon_1, ... , \epsilon_6$ after a single iteration for the Helium and Beryllium atom. }
+    \end{table}
 
 \subsection*{Part g), Writing a Hartree-Fock code.}
-\begin{table}[H]
-    \centering
-    \begin{tabular}{l|l|l|l|l}
-    Atom      & $E_0$ & $E_{\text{CI}}$ & $E_{\text{HF}}$ & $E$ \\
-    \hline
-    Helium    & -2.7500     & -2.8385    &   -2.8311  & -2.9037    \\
-    Beryllium & -13.7160     & -14.3621    &  -14.5083  &   -14.6674 
-    \end{tabular}
-    \caption{kld}
-\end{table}
+    GIVE A SHORT OVERVIEW OF ALGO
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{l|l|l|l|l|l}
+        Atom      & $E_0$ & $E_{\text{CI}}$ & $\hafo{E_1}$ & $\hafo{E_c}$ & $E$ \\
+        \hline
+        Helium    & -2.7500     & -2.8385    & -2.8291 & -2.8311  & -2.9037    \\
+        Beryllium & -13.7160     & -14.3621    & -14.4998 & -14.5083  &   -14.6674 
+        \end{tabular}
+        \caption{Showing the naive ground state energy expectation value $E_0$, the configuration interaction calculation $E_{\text{CI}}$, Hartree-Fock after 1 iteration and after convergence $\hafo{E_1}, \hafo{E_c}$ and the exact ground state energy using our Hamiltonian $E$. Energies have been calculated for the Helium and Beryllium atom. }
+    \end{table}
 
 \begin{appendix}
     \section{Appendix entry}
