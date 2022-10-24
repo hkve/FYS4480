@@ -269,7 +269,7 @@
 \subsection*{Part f), The Hartree-Fock matrices.}
     To solve the eigenvalue equation to obtain our $C_{t\lambda}$ coefficients, we invoke an iterative approach. With an initial guess of $C$ being the identity matrix $C_{t\lambda} = \delta_{t\lambda}$, the density matrix simply becomes the diagonal number operator. Thereafter, we can use the expression for the Hartree-Fock matrix from eq. \eqref{eq:HF_matrix} to fill it. We then invert this matrix, which by the eigenvalue equation from \eqref{eq:HF_matrix_equation} gives us new eigenvectors $C_{t\lambda}'$ and eigenvalues $\epsilon_t'$. Lastly, after the matrix inversion, we can insert our new coefficients $C_{t\lambda}'$ back into the ground state energy expectation value eq. \eqref{eq:Egs_HF}, yielding a (hopefully) better energy than the original $E[\Phi_0]$. 
     
-    To set up the Hartree-Fock matrix, we again need to choose an ordering. Since the summation indices $\lambda,\gamma$ goes over all single particle states, we now have a $6 \times 6$ matrix. Explicitly, the ordering chosen: $\ket{\upst{1}}, \ket{\downst{1}}, \ket{\upst{2}}, \ket{\downst{2}}, \ket{\upst{3}}, \ket{\downst{3}}$. After the one iteration is performed, we calculate the ground state energy $\hafo{E_1}$ and single particle energies $\epsilon_t$. This is presented in table. 
+    To set up the Hartree-Fock matrix, we again need to choose an ordering. Since the summation indices $\lambda,\gamma$ goes over all single particle states, we now have a $6 \times 6$ matrix. Explicitly, the ordering chosen: $\ket{\upst{1}}, \ket{\downst{1}}, \ket{\upst{2}}, \ket{\downst{2}}, \ket{\upst{3}}, \ket{\downst{3}}$. After the one iteration is performed, we calculate the ground state energy $\hafo{E_1}$ and single particle energies $\epsilon_t$. This is presented in table \ref{tab:HF_E}. Firstly, we note that the single particle energies are degenerate w.r.t. to the spin quantum number $m_s$. This is a good sanity check, since again the Hamiltonian is completely independent of the electrons spin. Regarding the ground state energies, $\hafo{E_1}$ quickly decreases from the initial values of $E_0 = -2.7500, -13.7160$ for Helium and Beryllium respectively. Comparing with the energies obtained from the configuration interaction calculations $E_{\text{CI}} = -2.8385, -14.3621$, we note that the Helium energy after this single iteration is worse when compared to the exact energy $E = -2.9037$ while the Beryllium energy is actually closer to the exact $E = -14.6674$ after just a single iteration!
     
     \begin{table}[H]
         \centering
@@ -279,11 +279,18 @@
         Helium    & -2.8291     & -0.7833    & -0.7833  & 0.0396  & 0.0396 & 0.4535 & 0.4535   \\
         Beryllium & -14.4998     & -3.9507    &  -3.9507 & -0.1040  &  -0.1040 & 0.8657 & 0.8657 
         \end{tabular}
-        \caption{Showing the ground state energy after a single Hartree-Fock iteration $\hafo{E_1}$, in addition to the six single particle energies $\epsilon_1, ... , \epsilon_6$ after a single iteration for the Helium and Beryllium atom. }
+        \caption{Showing the ground state energy after a single Hartree-Fock iteration $\hafo{E_1}$, in addition to the six single particle energies $\epsilon_1, ... , \epsilon_6$ after a single iteration for the Helium and Beryllium atom. }\label{tab:HF_E}
     \end{table}
 
+
 \subsection*{Part g), Writing a Hartree-Fock code.}
-    GIVE A SHORT OVERVIEW OF ALGO
+    Lastly, we wish to generalize the iterative scheme from  the previous task to more than a single iteration. Instead of simply plugging $C_{t\lambda}'$ into eq. \eqref{eq:Egs_HF} and calling it a night, we can use the coefficients to calculate a new density matrix $\rho_{\beta\delta}$, setting up the Hartree-Fock matrix and again inverting. This process can then be repeated any number of times. We however, have a deadline, and a stopping criterion has to be introduced. With the hopes that our algorithm should converge, we use the sum of the differences between $\epsilon_t$ values between different iterations as a measure. When this is smaller than some predetermined number $\Delta$, we stop the algorithm and evaluate the ground state energy eq. \eqref{eq:Egs_HF}. With $\epsilon_\alpha^{(n)}$ as the eigenvalue for the $\alpha$'th single particle state belonging to the $n$'th iteration, we write the stopping criterion as:
+    
+    \begin{align*}
+        \frac{1}{N_s}\sum_{\alpha=1}^{N_s} |\epsilon_\alpha^{(n)}-\epsilon_\alpha^{(n-1)}| \leq \Delta
+    \end{align*}
+    Where $N_s$ is the number of single particle states, six in our case. We run this approach for Helium and Beryllium, with a tolerance of $\Delta = 10^{-12}$. The resulting ground state energy, in addition to the other calculated ground state energies are presented in table \ref{tab:HF_E}.
+
     \begin{table}[H]
         \centering
         \begin{tabular}{l|l|l|l|l|l}
@@ -292,7 +299,7 @@
         Helium    & -2.7500     & -2.8385    & -2.8291 & -2.8311  & -2.9037    \\
         Beryllium & -13.7160     & -14.3621    & -14.4998 & -14.5083  &   -14.6674 
         \end{tabular}
-        \caption{Showing the naive ground state energy expectation value $E_0$, the configuration interaction calculation $E_{\text{CI}}$, Hartree-Fock after 1 iteration and after convergence $\hafo{E_1}, \hafo{E_c}$ and the exact ground state energy using our Hamiltonian $E$. Energies have been calculated for the Helium and Beryllium atom. }
+        \caption{Showing the naive ground state energy expectation value $E_0$, the configuration interaction calculation $E_{\text{CI}}$, Hartree-Fock after 1 iteration and after convergence $\hafo{E_1}, \hafo{E_c}$ and the exact ground state energy using our Hamiltonian $E$. Energies have been calculated for the Helium and Beryllium atom. } \label{tab:ALL_E}
     \end{table}
 
 \begin{appendix}
