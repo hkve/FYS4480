@@ -289,7 +289,7 @@
     \begin{align*}
         \frac{1}{N_s}\sum_{\alpha=1}^{N_s} |\epsilon_\alpha^{(n)}-\epsilon_\alpha^{(n-1)}| \leq \Delta
     \end{align*}
-    Where $N_s$ is the number of single particle states, six in our case. We run this approach for Helium and Beryllium, with a tolerance of $\Delta = 10^{-12}$. The resulting ground state energy, in addition to the other calculated ground state energies are presented in table \ref{tab:HF_E}.
+    Where $N_s$ is the number of single particle states, six in our case. We run this approach for Helium and Beryllium, with a tolerance of $\Delta = 10^{-12}$. The resulting ground state energy, in addition to the other calculated ground state energies are presented in table \ref{tab:HF_E}. Just as in the 1 iteration case, configuration interaction performs better than Hartree-Fock for Helium, but the opposite is true for Beryllium. This might be due to the configuration interaction Hamiltonian for Beryllium has both three-particle-three-hole and four-particle-four-hole terms that have been neglected. Helium converged after 16 iteration, while Beryllium required 16. Comparing $\hafo{E_1}$ and $\hafo{E_c}$, we see that the energy differences are minimal, indicating that the most significant changes (in this case) happends in the first iteration. 
 
     \begin{table}[H]
         \centering
