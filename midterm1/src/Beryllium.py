@@ -1,4 +1,4 @@
-from Utils import Indices, MatrixElements, Atom, HartreeFock
+from Utils import Indices, MatrixElements, ConfigurationInteraction, HartreeFock
 import numpy as np
 
 M = MatrixElements(N=3, Z=4).read()
@@ -17,7 +17,7 @@ E += (
 print(f"E[Phi0] = {E:.4f}")
 
 print("Configuration interaction")
-Beryllium = Atom(M, Fermi, i_order, a_order).fill()
+Beryllium = ConfigurationInteraction(M, Fermi, i_order, a_order).fill()
 print(Beryllium)
 Beryllium.solve()
 print(f"CI: E = {Beryllium.E.min()}\n")

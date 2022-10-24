@@ -6,34 +6,41 @@ import re
 from sympy import sympify
 
 class Indices:
+    """
+    Simple class used to set the Fermi level. Then one can index below or above this level
+    """
     def __init__(self, n, roof=3):
         self.nF = n
         self.roof = roof
 
     def below(self):
-        i, up = 0, True
+        i, s = 0, True
         while i <= self.nF:
-            yield i, up
+            yield i, s
             
-            if up:
-                up = False
+            if s:
+                s = False
             else:
-                up = True
+                s = True
                 i+=1 
 
     def above(self):
-        i, up = self.nF +1, True
+        i, s = self.nF +1, True
         while i < self.roof:
-            yield i, up
+            yield i, s
             
-            if up:
-                up = False
+            if s:
+                s = False
             else:
-                up = True
+                s = True
                 i+=1 
             
 
 class MatrixElements:
+    """
+    Contains one and two body interactions. Contains functions to read the text file,
+    and fetch matrix elements based on n and ms
+    """
     def __init__(self, N=3, Z=2):
         self.elms = np.zeros(shape=(N,N,N,N))
         self.Z = Z
@@ -75,7 +82,11 @@ class MatrixElements:
     def getAS(self, i, j, k, l):
         return (self.get_2body(i,j,k,l)-self.get_2body(i,j,l,k))
 
-class Atom:
+class ConfigurationInteraction:
+    """
+    Preform configuration interaction calculations including gs and 1p1h excitations.
+    Used the MatrixElement and Indicies classes.
+    """
     def __init__(self, M, Fermi, i_order, a_order, D=5):
         self.M = M
         self.Fermi = Fermi
@@ -85,6 +96,7 @@ class Atom:
         self.D = D
         self.H = np.zeros(shape=(D,D))
 
+    # E[Phi_0], expectation value of gs
     def fill_phi0_ph0(self):
         elm = 0
         M = self.M
@@ -100,6 +112,8 @@ class Atom:
 
         return elm
 
+
+    # Overlap between gs and 1h1h
     def fill_phi0_phi_ia(self, i, a):
         elm = 0
         M = self.M
@@ -109,6 +123,8 @@ class Atom:
             elm += (M.getAS(i,j,a,j))
         return elm
     
+
+    # Overlap between 2 different 1p1h's
     def fill_phi_ia_phi_ib(self, i, a, j, b):
         M = self.M
         Z = M.Z
@@ -131,6 +147,8 @@ class Atom:
 
         return T1 + T2 + T3 + T4
 
+
+    # Fill the 5x5 Hamiltonian matrix
     def fill(self):
         H, D_sub = self.H, self.D-1 
 
@@ -148,12 +166,16 @@ class Atom:
 
         return self
 
+
+    # Find eigen vectors and values and store them
     def solve(self):
         vals, vecs = np.linalg.eig(self.H)
         ids = np.argsort(vals)
         self.E = vals[ids]
         self.vecs = vecs[:, ids]
 
+
+    # For pretty print
     def __str__(self):
         to_return = ""
         for i in range(self.D):

@@ -1,4 +1,4 @@
-from Utils import MatrixElements, Atom, Indices, HartreeFock
+from Utils import MatrixElements, ConfigurationInteraction, Indices, HartreeFock
 import numpy as np
 
 M = MatrixElements(N=3, Z=2).read()
@@ -8,7 +8,7 @@ i_order = [(0,True),(0,False),(0,True),(0,False)]
 Fermi = Indices(0)
 
 print("Configuration interaction")
-Helium = Atom(M, Fermi, i_order, a_order).fill()
+Helium = ConfigurationInteraction(M, Fermi, i_order, a_order).fill()
 print(Helium)
 Helium.solve()
 print(f"CI: E = {Helium.E.min()}\n")
