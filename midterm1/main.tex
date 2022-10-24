@@ -164,7 +164,7 @@
         &= \innerAS{aj}{\hat{v}}{ib} + \sum_k \left( \innerAS{ak}{\hat{v}}{bk}\delta_{ij}-\innerAS{jk}{\hat{v}}{ik}\delta_{ab}\right) + \frac{1}{2}\sum_{kl}\innerAS{kl}{\hat{v}}{kl}\delta_{ij}\delta_{ab} \label{eq:phi_ia_phi_jb_HI}  
     \end{align}
 
-    DIAGRAMS
+    These matrix elements can also be expressed in a diagrammatic form. This can be seen in appendix \ref{sec:app:diagrams}, with $\inner{\Phi_0}{\hat{H}}{\Phi_0}$ and $\inner{\Phi_0}{\hat{H}}{\Phi_i^a}$ seen in figure \ref{fig:gs_1p1h} and $\inner{\Phi_i^a}{\hat{H}}{\Phi_j^b}$ in figure \ref{fig:1p1h}.
 
     Now we have everything we need to construct the Hamiltonian matrix containing all single particle excitations. This must include the ground state, as well as the 4 possible single particle excitations, giving a $5 \times 5$ matrix. The ordering chosen here is first the ground state, thereafter excitations with increasing $n$ with alternating spin, starting with up. Explicitly $\gs,\exed{\ups{1}}{\ups{2}}, \exed{\downs{1}}{\downs{2}}, \exed{\ups{1}}{\ups{3}}, \exed{\downs{1}}{\downs{3}}$. After matrix construction and inversion, the ground state energy is found to be $\approx -2.8385$. Since the exact energy using our Hamiltonian is $-2.9037$, we note that our configuration interaction value is more precise than $E[\Phi_0] = -2.7500$ as calculated in the previous task. This is to be expected since we include a larger part of the Hilbert space. In addition, an even better value would be expected if two-particle-two-hole excitations were included. If even better values would be needed, relaxing our assumptions of $l=0, M_s = 0$ would be needed.     
 
@@ -303,8 +303,18 @@
     \end{table}
 
 \begin{appendix}
-    \section{Appendix entry}
-    some appendix things
+    \section{Diagrammatic representation of matrix elements}\label{sec:app:diagrams}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{gs_1p1h_croped.pdf}
+        \caption{Diagrammatic representation of matrix elements for $\inner{\Phi_0}{\hat{H}}{\Phi_0}$ and $\inner{\Phi_0}{\hat{H}}{\Phi_{i}^a}$}\label{fig:gs_1p1h}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{2p2h_croped.pdf}
+        \caption{Diagrammatic representation of matrix elements for $\inner{\Phi_i^a}{\hat{H}}{\Phi_j^b}$, decomposed in terms for $\hat{H}_0$ and $\hat{H}_I$.}\label{fig:1p1h}
+    \end{figure}
 \end{appendix}
 \cite{DFTgap}
 \printbibliography
