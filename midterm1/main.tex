@@ -272,21 +272,24 @@
 
     \begin{align*}
         &\sum_{j}\int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \phi^*_j(x_2) r_{12}^{-1} \phi_\gamma(x_1) \phi_j(x_2), \hspace{20px} r_{12} = r_{12}(x_1, x_2) = |r_2 - r_1| \\
-        &= \int \dd{x_1} \phi^*_{\lambda}(x_1) \left( \int \dd{x_2} \sum_j |\phi_j(x_2)|^2 r_{12}^{-1}\right)\phi_\gamma(x_1) = \int \dd{x_1} \phi^*_{\lambda}(x_1) v_{col}(x_1) \phi_\gamma(x_1) \\
-        &\text{where}\hspace{10px} v_{col}(x_1) =  \sum_j J_j (x_1),\hspace{10px}\hspace{10px} J_j(x_1) = \int \dd{x_2} |\phi_j(x_2)|^2 r_{12}^{-1}
+        &= \int \dd{x_1} \phi^*_{\lambda}(x_1) \left( \int \dd{x_2} \sum_j |\phi_j(x_2)|^2 r_{12}^{-1}\right)\phi_\gamma(x_1) = \int \dd{x_1} \phi^*_{\lambda}(x_1) \hat{v}_{col}(x_1) \phi_\gamma(x_1) \\
+        &\text{where}\hspace{10px} \hat{v}_{col}(x_1) =  \sum_j \hat{J}_j (x_1),\hspace{10px}\hspace{10px} \hat{J}_j(x_1) = \int \dd{x_2} |\phi_j(x_2)|^2 r_{12}^{-1}
     \end{align*}
-    Both $\phi^*_j$ and $\phi_j$ are functions of $x_2$. When integrated over them, we simply have a function $J_i$ having a $x_1$ dependence from the $r_{12}^{-1}$ term. This is a one body operator describing the Coulomb field contribution set up by the $\phi_j$ state. When this is summed over all occupied states $j$, giving again a new one body operator $v_{col} (x_1)$, we interpret this as the mean Coulomb field set up by all occupied electron states. A similar approach for the exchange term yields:
+    Both $\phi^*_j$ and $\phi_j$ are functions of $x_2$. When integrated over them, we simply have a function $\hat{J}_i$ having a $x_1$ dependence from the $r_{12}^{-1}$ term. This is a one body operator describing the Coulomb field contribution set up by the $\phi_j$ state. When this is summed over all occupied states $j$, giving again a new one body operator $v_{col} (x_1)$, we interpret this as the mean Coulomb field set up by all occupied electron states. A similar approach for the exchange term yields:
     \begin{align*}
         &\sum_{j}\int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \phi^*_j(x_2) r_{12}^{-1} \phi_\gamma(x_2) \phi_j(x_1) \\
-        &=\int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \left(\sum_{j} \phi^*_j(x_2)\phi_j(x_1)r_{12}^{-1} \right) \phi_\gamma(x_2) = \int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) K(x_1, x_2) \phi_\gamma(x_2) \\ 
-        &\text{where}\hspace{10px} v_{ex}(x_1, x_2) =  \sum_j K_j (x_1, x_2),\hspace{10px}\hspace{10px} K_j (x_1, x_2) = \int \dd{x_2} \phi^*_j(x_2)\phi_j(x_1)r_{12}^{-1}  
+        &=\int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \left(\sum_{j} \phi^*_j(x_2)\phi_j(x_1)r_{12}^{-1} \right) \phi_\gamma(x_2) = \int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \hat{K}(x_1) \phi_\gamma(x_2) \\ 
+        &\text{where}\hspace{10px} v_{ex}(x_1) =  \sum_j \hat{K}_j (x_1),\hspace{10px}\hspace{10px} \hat{K}_j (x_1) = \phi_j(x_1)\int \dd{x_2} \phi^*_j(x_2)r_{12}^{-1}  
         % &= \sum_j \int \dd{x_1} \phi^*_{\lambda}(x_1)\left( \int \dd{x_2} \phi^*_j(x_2)\phi_\gamma(x_2) r_{12}^{-1} \right) \phi_j (x_1) = \sum_j \int \dd{x_1} \phi^*_{\lambda}(x_1) K_j (x_1) \phi_j(x_1) \\
         % &\text{where}\hspace{10px} K_j (x_1) = \int \dd{x_2} \phi^*_j(x_2)\phi_\gamma(x_2) r_{12}^{-1} 
     \end{align*}
-    Here, the $K_j (x_1, x_2)$ does not have an as simple interpretation as the $J_j(x_1)$ operator. This term arises from the antisymmetric wave function, constructed to respect the Fermi exclusion principle. It is important to note that $J$ is a \textit{local} operator, but $K$ is a nonlocal operator.  
-    %The term inside the parenthesis above has a not as clear interpretation as the direct term since the integral over $x_1$ and $x_2$ can not be separated in the same way as for the mean Coulomb field. This occurs due to the antisymmetric assumption of the wave function (writing it using Slater determinants). 
-
-    DIAGRAMS, INTERPRETATION
+    Here, the $\hat{K}_j (x_1)$ does not have an as simple interpretation as the $\hat{J}_j(x_1)$ operator. This term arises from the antisymmetric wave function, constructed to respect the Fermi exclusion principle. It seems to be an estimate of the exchange energy, leading to the Pauli repulsion between the two particles.
+    It is interesting to note that $\hat{J}$ is a \textit{local} operator, but $\hat{K}$ is a \textit{nonlocal} operator. This can be most easily seen by applying them two a state $\phi_{\alpha}$:
+    \begin{align*}
+        \hat{J}_j(x)\phi_\alpha(x) &= \phi_\alpha(x) \int \dd{x'} \frac{|\phi_j(x')|^2}{r_{12}(x, x')} \\
+        \hat{K}(x)\phi_\alpha(x) &= \phi_j(x) \int \dd{x'} \frac{\phi^*_j(x')\phi_\alpha(x')}{r_{12}(x, x')}
+    \end{align*} 
+    Here we see that $\hat{J}$ acting on a state only depends on its own coordinate. That is, $\hat{J}(x)\phi_\alpha(x)$ at a point $x$ only depends on the value of $\phi_\alpha$ at that point. For $\hat{K}$ however, since $\phi_\alpha$ is integrated over, the value of $\hat{K}(x)\phi_\alpha(x)$ at a specific point $x$ dependence on the value of $\phi_\alpha$ at other points ($x'$).
 
 \subsection*{Part f), The Hartree-Fock matrices.}
     To solve the eigenvalue equation to obtain our $C_{t\lambda}$ coefficients, we invoke an iterative approach. With an initial guess of $C$ being the identity matrix $C_{t\lambda} = \delta_{t\lambda}$, the density matrix simply becomes the diagonal number operator. Thereafter, we can use the expression for the Hartree-Fock matrix from eq. \eqref{eq:HF_matrix} to fill it. We then find the eigenvalues and vectors, which by the eigenvalue equation from \eqref{eq:HF_matrix_equation} gives us new eigenvectors $C_{t\lambda}'$ and eigenvalues $\epsilon_t'$. Lastly, we can insert our new coefficients $C_{t\lambda}'$ back into the ground state energy expectation value eq. \eqref{eq:Egs_HF}, yielding a (hopefully) better energy than the original $E[\Phi_0]$. 
