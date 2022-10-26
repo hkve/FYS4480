@@ -225,7 +225,7 @@
     \end{align} 
     Note that the first line in the above equation is \text{not} the same as in eq. \eqref{eq:phi0_phi0} (despite using the same indices). The sum is still only up the Fermi level (or over the number of particles), but expressed in our new basis (the Hartree-Fock basis). We now define the functional $F[\hafo{\Phi_0}]$ which we wish to minimize:
     \begin{align}
-        F[\hafo{\Phi_0}] = E[\hafo{\Phi_0}] - \sum_{i} \epsilon_i =  E[\hafo{\Phi_0}] - \sum_{i} \epsilon_i \underbrace{\sum_{\alpha} C^*_{i\alpha}C_{i\alpha}}_{\delta_{ii} = 1}
+        F[\hafo{\Phi_0}] \equiv E[\hafo{\Phi_0}] - \sum_{i} \epsilon_i =  E[\hafo{\Phi_0}] - \sum_{i} \epsilon_i \underbrace{\sum_{\alpha} C^*_{i\alpha}C_{i\alpha}}_{\delta_{ii} = 1}
     \end{align}
     Where $\set{\epsilon_i}$ is a set of Lagrange multipliers. We now wish to minimize $F$ with respect to $C^*$. To do this, we view F as a function of $C^*_{t\lambda}$ and $C_{t\lambda}$. Performing the functional (variational) derivative, we find:
     \begin{align*}
@@ -272,8 +272,19 @@
 
     \begin{align*}
         &\sum_{j}\int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \phi^*_j(x_2) r_{12}^{-1} \phi_\gamma(x_1) \phi_j(x_2), \hspace{20px} r_{12} = r_{12}(x_1, x_2) = |r_2 - r_1| \\
-        &= \int \dd{x_1} \phi^*_{\lambda}(x_1) \left( \int \dd{x_2} \sum_j |\phi_j(x_2)|^2 r_{12}^{-1}\right)\phi_\gamma(x_1) = \int \dd{x_1} \phi^*_{\lambda}(x_1) v_{col}(x_1) \phi_\gamma(x_1) 
+        &= \int \dd{x_1} \phi^*_{\lambda}(x_1) \left( \int \dd{x_2} \sum_j |\phi_j(x_2)|^2 r_{12}^{-1}\right)\phi_\gamma(x_1) = \int \dd{x_1} \phi^*_{\lambda}(x_1) v_{col}(x_1) \phi_\gamma(x_1) \\
+        &\text{where}\hspace{10px} v_{col}(x_1) =  \sum_j J_j (x_1),\hspace{10px}\hspace{10px} J_j(x_1) = \int \dd{x_2} |\phi_j(x_2)|^2 r_{12}^{-1}
     \end{align*}
+    Both $\phi^*_j$ and $\phi_j$ are functions of $x_2$. When integrated over them, we simply have a function $J_i$ having a $x_1$ dependence from the $r_{12}^{-1}$ term. This is a one body operator describing the Coulomb field contribution set up by the $\phi_j$ state. When this is summed over all occupied states $j$, giving again a new one body operator $v_{col} (x_1)$, we interpret this as the mean Coulomb field set up by all occupied electron states. A similar approach for the exchange term yields:
+    \begin{align*}
+        &\sum_{j}\int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \phi^*_j(x_2) r_{12}^{-1} \phi_\gamma(x_2) \phi_j(x_1) \\
+        &=\int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \left(\sum_{j} \phi^*_j(x_2)\phi_j(x_1)r_{12}^{-1} \right) \phi_\gamma(x_2) = \int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) K(x_1, x_2) \phi_\gamma(x_2) \\ 
+        &\text{where}\hspace{10px} v_{ex}(x_1, x_2) =  \sum_j K_j (x_1, x_2),\hspace{10px}\hspace{10px} K_j (x_1, x_2) = \int \dd{x_2} \phi^*_j(x_2)\phi_j(x_1)r_{12}^{-1}  
+        % &= \sum_j \int \dd{x_1} \phi^*_{\lambda}(x_1)\left( \int \dd{x_2} \phi^*_j(x_2)\phi_\gamma(x_2) r_{12}^{-1} \right) \phi_j (x_1) = \sum_j \int \dd{x_1} \phi^*_{\lambda}(x_1) K_j (x_1) \phi_j(x_1) \\
+        % &\text{where}\hspace{10px} K_j (x_1) = \int \dd{x_2} \phi^*_j(x_2)\phi_\gamma(x_2) r_{12}^{-1} 
+    \end{align*}
+    Here, the $K_j (x_1, x_2)$ does not have an as simple interpretation as the $J_j(x_1)$ operator. This term arises from the antisymmetric wave function, constructed to respect the Fermi exclusion principle. It is important to note that $J$ is a \textit{local} operator, but $K$ is a nonlocal operator.  
+    %The term inside the parenthesis above has a not as clear interpretation as the direct term since the integral over $x_1$ and $x_2$ can not be separated in the same way as for the mean Coulomb field. This occurs due to the antisymmetric assumption of the wave function (writing it using Slater determinants). 
 
     DIAGRAMS, INTERPRETATION
 
