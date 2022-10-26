@@ -43,10 +43,12 @@ class MatrixElements:
     """
     def __init__(self, N=3, Z=2):
         self.elms = np.zeros(shape=(N,N,N,N))
-        self.Z = Z
-        self.N = N
+        self.Z = Z # Nucleus charge
+        self.N = N # Number of n states
 
-    def read(self, filename="matrix_elements.txt"):
+
+    # Read and store matrix elements
+    def read(self, filename="matrix_elements.txt"): 
         with open(filename, "r") as file:
             for line in file:
                 line = line.strip()
@@ -65,10 +67,13 @@ class MatrixElements:
         
         return self
 
+    # Get the energy corresponding to a one body matrix element.
+    # Only need one index due to basis funcs being eig funcs of h0 
     def get_1body(self, i):
         ni, si = i
         return -self.Z**2 / (2*(ni+1)**2)
 
+    # Get 2 body matrix elements 
     def get_2body(self, i,j,k,l):
         ni, si = i
         nj, sj = j
@@ -79,6 +84,7 @@ class MatrixElements:
         
         return self.elms[ni, nj, nk, nl]*spin_delta
         
+    # Asymmetric wrapper for matrix elements 
     def getAS(self, i, j, k, l):
         return (self.get_2body(i,j,k,l)-self.get_2body(i,j,l,k))
 
@@ -90,10 +96,10 @@ class ConfigurationInteraction:
     def __init__(self, M, Fermi, i_order, a_order, D=5):
         self.M = M
         self.Fermi = Fermi
-        self.i_order = i_order
-        self.a_order = a_order
+        self.i_order = i_order # How holes are ordered in matrix
+        self.a_order = a_order # How particles are ordered in matrix
 
-        self.D = D
+        self.D = D # Dimmensionality of constructed hamiltonian
         self.H = np.zeros(shape=(D,D))
 
     # E[Phi_0], expectation value of gs
@@ -120,6 +126,7 @@ class ConfigurationInteraction:
         Z = M.Z
 
         for j in self.Fermi.below():
+            # <ij|v|aj>AS
             elm += (M.getAS(i,j,a,j))
         return elm
     
@@ -129,12 +136,14 @@ class ConfigurationInteraction:
         M = self.M
         Z = M.Z
 
-        T1 = M.getAS(a,j,i,b)
+        T1 = M.getAS(a,j,i,b) # <aj|v|ib>AS
 
         T2 = 0
         for k in self.Fermi.below():
+            # <ak|v|bk>AS - <jk|v|ik>AS including delta functions
             T2 += M.getAS(a,k,b,k)*(i==j) - M.getAS(j,k,i,k)*(a==b)
 
+        # One body hole/particle contribution
         T3 = (i==j)*(a==b)*(M.get_1body(a) - M.get_1body(i)) 
 
         T4 = 0

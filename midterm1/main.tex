@@ -56,7 +56,7 @@
 \maketitle
 
 \subsection*{Practical information}
-    The developed and used code for this midterm can be found at \url{https://github.com/hkve/FYS4480/tree/main/midterm1} and is written in \textbf{Python3}.
+    The developed and used code for this |midterm can be found at \url{https://github.com/hkve/FYS4480/tree/main/midterm1} and is written in \textbf{Python3}. Both trough derivations and presentation of results, atomic units will be used ($\hbar = c = e = m_e = 1$.)
 
 \subsection*{Part a), setting up the basis.}
     Since we use hydrogen-like single particle states, we consider the quantum numbers $nlm_l sm_s$. We constrain ourselves to only look at $n = 1,2,3$, with $l = 0$ implying $m_l = 0$ In addition, since electrons are fermions, all single particle states (SPS) must have $s = \sfrac{1}{2}$, giving two possible spin projections $m_s = \sfrac{1}{2}, -\sfrac{1}{2}$, which we will write as $\uparrow, \downarrow$ respectively. Due to these restrictions, the only relevant quantum numbers are $nm_s$. Using the creation and annihilation operators ($\crt{nm_s}, \ani{nm_s}$) from the second quantization formalism, we can construct all six SPS as excitations of the vacuum state $\vac$:
@@ -270,19 +270,19 @@
     \end{align*}
     Now we write the inner product in integral form, only considering the spatial orbitals. Firstly, the direct term can be written as:
 
-    \begin{align*}
-        &\sum_{j}\int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \phi^*_j(x_2) r_{12}^{-1} \phi_\gamma(x_1) \phi_j(x_2), \hspace{20px} r_{12} = r_{12}(x_1, x_2) = |r_2 - r_1| \\
-        &= \int \dd{x_1} \phi^*_{\lambda}(x_1) \left( \int \dd{x_2} \sum_j |\phi_j(x_2)|^2 r_{12}^{-1}\right)\phi_\gamma(x_1) = \int \dd{x_1} \phi^*_{\lambda}(x_1) \hat{v}_{col}(x_1) \phi_\gamma(x_1) \\
-        &\text{where}\hspace{10px} \hat{v}_{col}(x_1) =  \sum_j \hat{J}_j (x_1),\hspace{10px}\hspace{10px} \hat{J}_j(x_1) = \int \dd{x_2} |\phi_j(x_2)|^2 r_{12}^{-1}
-    \end{align*}
+    \begin{align}
+        &\sum_{j}\int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \phi^*_j(x_2) r_{12}^{-1} \phi_\gamma(x_1) \phi_j(x_2), \hspace{20px} r_{12} = r_{12}(x_1, x_2) = |r_2 - r_1| \nonumber \\
+        &= \int \dd{x_1} \phi^*_{\lambda}(x_1) \left( \int \dd{x_2} \sum_j |\phi_j(x_2)|^2 r_{12}^{-1}\right)\phi_\gamma(x_1) = \int \dd{x_1} \phi^*_{\lambda}(x_1) \hat{v}_{col}(x_1) \phi_\gamma(x_1) \label{eq:HF_J_spatial}\\
+        &\text{where}\hspace{10px} \hat{v}_{col}(x_1) =  \sum_j \hat{J}_j (x_1),\hspace{10px}\hspace{10px} \hat{J}_j(x_1) = \int \dd{x_2} |\phi_j(x_2)|^2 r_{12}^{-1} \nonumber
+    \end{align}
     Both $\phi^*_j$ and $\phi_j$ are functions of $x_2$. When integrated over them, we simply have a function $\hat{J}_i$ having a $x_1$ dependence from the $r_{12}^{-1}$ term. This is a one body operator describing the Coulomb field contribution set up by the $\phi_j$ state. When this is summed over all occupied states $j$, giving again a new one body operator $v_{col} (x_1)$, we interpret this as the mean Coulomb field set up by all occupied electron states. A similar approach for the exchange term yields:
-    \begin{align*}
-        &\sum_{j}\int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \phi^*_j(x_2) r_{12}^{-1} \phi_\gamma(x_2) \phi_j(x_1) \\
-        &=\int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \left(\sum_{j} \phi^*_j(x_2)\phi_j(x_1)r_{12}^{-1} \right) \phi_\gamma(x_2) = \int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \hat{K}(x_1) \phi_\gamma(x_2) \\ 
-        &\text{where}\hspace{10px} v_{ex}(x_1) =  \sum_j \hat{K}_j (x_1),\hspace{10px}\hspace{10px} \hat{K}_j (x_1) = \phi_j(x_1)\int \dd{x_2} \phi^*_j(x_2)r_{12}^{-1}  
+    \begin{align}
+        &\sum_{j}\int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \phi^*_j(x_2) r_{12}^{-1} \phi_\gamma(x_2) \phi_j(x_1) \nonumber\\
+        &=\int \dd{x_1} \dd{x_2} \phi^*_{\lambda}(x_1) \left(\sum_{j} \phi^*_j(x_2)\phi_j(x_1)r_{12}^{-1} \right) \phi_\gamma(x_2) = \int \dd{x_1}  \phi^*_{\lambda}(x_1) \hat{K}(x_1) \phi_\gamma(x_2) \label{eq:HF_K_spatial} \\ 
+        &\text{where}\hspace{10px} v_{ex}(x_1) =  \sum_j \hat{K}_j (x_1),\hspace{10px}\hspace{10px} \hat{K}_j (x_1) = \phi_j(x_1)\int \dd{x_2} \phi^*_j(x_2)r_{12}^{-1} \nonumber  
         % &= \sum_j \int \dd{x_1} \phi^*_{\lambda}(x_1)\left( \int \dd{x_2} \phi^*_j(x_2)\phi_\gamma(x_2) r_{12}^{-1} \right) \phi_j (x_1) = \sum_j \int \dd{x_1} \phi^*_{\lambda}(x_1) K_j (x_1) \phi_j(x_1) \\
         % &\text{where}\hspace{10px} K_j (x_1) = \int \dd{x_2} \phi^*_j(x_2)\phi_\gamma(x_2) r_{12}^{-1} 
-    \end{align*}
+    \end{align}
     Here, the $\hat{K}_j (x_1)$ does not have an as simple interpretation as the $\hat{J}_j(x_1)$ operator. This term arises from the antisymmetric wave function, constructed to respect the Fermi exclusion principle. It seems to be an estimate of the exchange energy, leading to the Pauli repulsion between the two particles.
     It is interesting to note that $\hat{J}$ is a \textit{local} operator, but $\hat{K}$ is a \textit{nonlocal} operator. This can be most easily seen by applying them two a state $\phi_{\alpha}$:
     \begin{align*}
@@ -291,6 +291,17 @@
     \end{align*} 
     Here we see that $\hat{J}$ acting on a state only depends on its own coordinate. That is, $\hat{J}(x)\phi_\alpha(x)$ at a point $x$ only depends on the value of $\phi_\alpha$ at that point. For $\hat{K}$ however, since $\phi_\alpha$ is integrated over, the value of $\hat{K}(x)\phi_\alpha(x)$ at a specific point $x$ dependence on the value of $\phi_\alpha$ at other points ($x'$).
 
+    Looking back at equation \eqref{eq:HF_J_spatial} and \eqref{eq:HF_K_spatial}, we write these in second quantization using the new one body expressions. Inserting back into the Hartree-Fock matrix elements we find:
+    \begin{align*}
+        \hafo{h_{\lambda\gamma}} = \inner{\lambda}{\hnull}{\gamma} + \sum_j \inner{\lambda}{\hat{J}_j}{\gamma} - \inner{\lambda}{\hat{K}_j}{\gamma}
+    \end{align*}
+    Using this, we define the Hartree-Fock operator in second quantization by tagging along creation and annihilation operators for $\lambda$ and $\gamma$:
+    \begin{align*}
+        \hafo{h_{\lambda\gamma}} &= \inner{\lambda}{\hafo{\hat{h}}}{\gamma} = \inner{\lambda}{\hnull}{\gamma} + \sum_j \inner{\lambda}{\hat{J}_j - \hat{K}_j}{\gamma} \\
+        \hafo{\hat{h}} &\equiv \sum_{\lambda\gamma} \inner{\lambda}{\hnull}{\gamma}\crt{\lambda}\ani{\gamma} + \sum_{\lambda\gamma j} \inner{\lambda}{\hat{J}_j - \hat{K}_j}{\gamma}\crt{\lambda}\ani{\gamma}
+    \end{align*}
+    This operator is draw in a diagrammatic form presented in figure \ref{fig:HF}.
+    
 \subsection*{Part f), The Hartree-Fock matrices.}
     To solve the eigenvalue equation to obtain our $C_{t\lambda}$ coefficients, we invoke an iterative approach. With an initial guess of $C$ being the identity matrix $C_{t\lambda} = \delta_{t\lambda}$, the density matrix simply becomes the diagonal number operator. Thereafter, we can use the expression for the Hartree-Fock matrix from eq. \eqref{eq:HF_matrix} to fill it. We then find the eigenvalues and vectors, which by the eigenvalue equation from \eqref{eq:HF_matrix_equation} gives us new eigenvectors $C_{t\lambda}'$ and eigenvalues $\epsilon_t'$. Lastly, we can insert our new coefficients $C_{t\lambda}'$ back into the ground state energy expectation value eq. \eqref{eq:Egs_HF}, yielding a (hopefully) better energy than the original $E[\Phi_0]$. 
     
@@ -337,12 +348,17 @@
 
     \begin{figure}[H]
         \centering
-        \includegraphics[width=\linewidth]{2p2h_croped.pdf}
-        \caption{Diagrammatic representation of matrix elements for $\inner{\Phi_i^a}{\hat{H}}{\Phi_j^b}$, decomposed in terms for $\hat{H}_0$ and $\hat{H}_I$.}\label{fig:1p1h}
+        \includegraphics[width=\linewidth]{1p1h_croped.pdf}
+        \caption{Diagrammatic representation of matrix elements for $\inner{\Phi_i^a}{\hat{H}}{\Phi_j^b}$, decomposed in terms for $\hat{H}_0$ and $\hat{H}_I$. Note that the terms from eq. \eqref{eq:phi_ia_phi_jb_H0} and \eqref{eq:phi_ia_phi_jb_HI} that contains Kronecker deltas have the spectator(s) omitted.}\label{fig:1p1h}
+    \end{figure}
+
+    \section{Diagrammatic representation of Hartree-Fock operator}\label{sec:app:HF_dia}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{hafo_cropped.pdf}
+        \caption{Diagrammatic representation of the Hartree-Fock operator (after it is written in a one body operator form). There are no arrows on ingoing/outgoing lines since no creation/annihilation operator has yet been contracted.}\label{fig:HF}
     \end{figure}
 \end{appendix}
-\cite{DFTgap}
-\printbibliography
 
 \end{document}
 
