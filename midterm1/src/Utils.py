@@ -197,16 +197,22 @@ class ConfigurationInteraction:
 
 
 class HartreeFock:
+    """
+    Class to perform Hartree-Fock calculations. Matrix elements, number
+    of particles and number of single particle states must be supplied.
+    """
     def __init__(self, M, Ns=6, Np=2):
         self.M = M
 
         Fermi = Indices(0)
+        # Make list of all states...
         self.States = [_ for _ in Fermi.below()] + [_ for _ in Fermi.above()]
         
         self.Ns = Ns
         self.Np = Np
 
 
+    # Calculate the density matrix based on coef matrix C
     def density_matrix_(self, C):
         rho = np.zeros_like(C)
 
@@ -219,7 +225,7 @@ class HartreeFock:
 
         return rho
 
-
+    # Perform the actual HF algo
     def solve(self, tol=1e-8, maxiters=1000):
         M, States = self.M, self.States
         Ns, Np = self.Ns, self.Np
@@ -251,9 +257,13 @@ class HartreeFock:
 
                     HFmat[l,g] += elmSum
 
+            # Get new single particle energies and coefs
             sp_E_new, C = np.linalg.eigh(HFmat)
+
+            # Calculate new density matrix
             rho = self.density_matrix_(C.T)
 
+            # Check sp energy differences from last iter to see if converged
             diff = np.sum(np.abs(sp_E_new-sp_E_old))/Ns
 
             sp_E_old = sp_E_new
@@ -263,8 +273,11 @@ class HartreeFock:
         self.iters_conv = iters
         self.diff_conv = diff
         self.sp_conv = sp_E_new
+
+        # Calculate gs expectation value
         self.evaluate_Energy_(rho)
 
+    # Based on the converged density matrix, calculate the gs energy
     def evaluate_Energy_(self, rho):
         M, States = self.M, self.States
 
