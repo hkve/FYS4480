@@ -1,9 +1,0 @@
-+    
-
-+% \comment{Write about E2 and E3 not being degenerate any more, why?}
-
-+\newcommand{\comment}[1]{\textcolor{red}{#1}}
-
-
-
-+    
