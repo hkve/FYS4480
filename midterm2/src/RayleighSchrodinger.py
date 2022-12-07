@@ -135,7 +135,7 @@ def RS_compare(g, E_combs, orders, labels, plot=True, filename=None):
 
 if __name__ == "__main__":
     g = np.linspace(-1,1,1)
-    # E2 = RS(g, order=2)
+    E2 = RS(g, order=2)
     E3 = RS(g, order=3)
 
     E4 = RS(g, order=4)

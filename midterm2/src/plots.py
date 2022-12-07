@@ -43,8 +43,8 @@ def CI_AND_RS(g):
 
 if __name__ == "__main__":
     g = np.linspace(-1, 1, 100)
-    # FCI_and_CID(g)
-    # HF(g)
-    # FCI_and_RS(g, orders=[3])
-    # CI_AND_RS(g)
+    FCI_and_CID(g)
+    HF(g)
+    FCI_and_RS(g, orders=[3])
+    CI_AND_RS(g)
     FCI_and_RS(g, orders=[4])
