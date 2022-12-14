@@ -487,19 +487,26 @@ Which, through its complex conjugate gives the pair annihilation commutator.
 \section*{Task 7}
 Diagrams can be separated into two categories, \textit{linked} and \textit{unlinked}. Linked diagrams have every interaction vertex linked together through either particle or hole lines. That is, the diagram can not be partitioned into smaller, lower order diagrams. Unlinked diagrams on the other hand, have at least two interaction pieces that does not link together, meaning that the diagrams can be separated into more than one lower order diagram. These diagrams give nonphysical dependence on the number of particles in the system, leading to the possibility that the system is not size extensive. Goldstone's linked diagram theorem proves that these nonphysical diagrams cancel order by order, provided that the complete diagrams are evaluated.
 
-Regarding diagrams, the 1p1h fourth order diagrams can not contribute as they break a pair. The 2p2h diagrams on the other hand is harder to make out, they all sort of look the same. An (un)educated guess would be 14 and 15. One of these (or some other contributing diagram) would presumably cancel a first times third order diagram and two second order diagrams. The results for perturbation theory to the fourth order in the interaction is presented in \cref{fig:RS3} and \cref{fig:FCI_RS3_diff}. Compared with the result from third order (\cref{fig:RS3}, \cref{fig:FCI_RS3_diff}), the improvements are very small where present. Due to the fluctuations previously mentioned, we now have a larger error for $g > 0$ again (which was different for third order). Just as in the third order case, the energy fluctuates as a function of $g$, being above for $g < 0$ and below for $g > 0$. 
+Regarding diagrams, the 1p1h fourth order diagrams can not contribute as they break a pair. The 2p2h diagrams on the other hand is harder to make out, they all sort of look the same. An (un)educated guess would be 14 and 15. One of these (or some other contributing diagram) would presumably cancel a first times third order diagram and two second order diagrams. However, the contribution can be calculated by adding:
+
+\begin{align*}
+    \ord{E}{4}_{RS} = \ord{E}{3}_{RS} + \psum_{ijk} \frac{V_{0i}W_{ij}W_{jk}V_{k0}}{D_{0i}D_{0j}D_{0k}} - \ord{E}{2} \psum_{i} \frac{V_{0i}V_{i0}}{D_{0i}^2}
+\end{align*}
+
+
+The results for perturbation theory to the fourth order in the interaction is presented in \cref{fig:RS3} and \cref{fig:FCI_RS3_diff}. Compared with the result from third order (\cref{fig:RS3}, \cref{fig:FCI_RS3_diff}), the improvements are very small where present. Due to the fluctuations previously mentioned, we now have a larger error for $g > 0$ again (which was different for third order). Just as in the third order case, the energy fluctuates as a function of $g$, being above for $g < 0$ and below for $g > 0$. 
 
 \begin{figure}[H]
     \begin{subfigure}{.49\textwidth}
         \includegraphics[width=\linewidth]{RS4.pdf}
-        \caption{Energy of the ground state for a second order perturbation and CI calculation as a function of the coupling strength $g$.}
+        \caption{Energy of the ground state for a foruth order perturbation and FCI calculation as a function of the coupling strength $g$.}
     \label[fig]{fig:RS4}
     \end{subfigure}
     \hfill
     \begin{subfigure}{.49\textwidth}
         \centering
         \includegraphics[width=\linewidth]{FCI_RS4_diff.pdf}
-        \caption{Absolute difference between ground state energies calculated using CI and second order perturbation theory as a function of coupling strength $g$.}
+        \caption{Absolute difference between ground state energies calculated using FCI and foruth order perturbation theory as a function of coupling strength $g$.}
         \label[fig]{fig:FCI_RS4_diff}
     \end{subfigure}
     \caption{Perturbation theory to second order in the interaction, compared with CI}
