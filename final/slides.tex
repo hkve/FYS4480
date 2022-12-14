@@ -132,7 +132,7 @@
 
 \subsection{FCI}
 \begin{frame}
-    In all but very simple problems, this approach is unfeasible. In general, we have to consider 
+    For all but very simple problems, this approach is unfeasible. In general, we have to consider 
     \begin{align*}
         \binom{n}{N} = \frac{n!}{N!(n-N)!}
     \end{align*}
@@ -168,8 +168,59 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{}{Custom Subsection}
-    This frame has a custom subtitle. The frame title is automatically inserted and corresponds to the section title.
+\begin{frame}
+    \frametitle{Configuration Interaction (CI)}
+    Follows the same methodology as FCI, but due to its large computational time, the many body states are also truncated.
+    \\[10pt]
+    Different truncation levels can be chosen, for instance only include (in addition to $\gs$) 1p1h excitations (CIS) or 2p2h excitations (CID).
+    \\[10pt]
+    Truncation relies on an a priori ranking of the importance of different excited states, which contributions to include might not be obvious.
+    \\[10pt]
+    Considering our paring model example, we can exclude the 4p4h ($\ket{34}$) contributions from $\inner{KL}{\hat{H}}{RS}$, giving only the ground state ansatz and 2p2h excitations.
+    \\[10pt]
+    This reduces the matrix $6 \times 6 \xrightarrow{} 5 \times 5$, showing how truncation is beneficial from a computational point of view.
+\end{frame}
+
+\subsection{CI}
+\begin{frame}
+    \begin{figure}
+        \begin{subfigure}{.49\textwidth}
+            \includegraphics[width=\linewidth]{figs/CID.pdf}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{.49\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{figs/FCI_CID_diff.pdf}
+        \end{subfigure}
+    \end{figure}
+\end{frame}
+
+
+\subsection{CI}
+\begin{frame}
+    \textcolor{Green}{\importanttext{Pros:}}
+    \begin{itemize}
+        \item Understandable and relatively easy to set up 
+        \item Excited states thrown into the bargain
+        \item Reduces the problem of FCI
+        \item When adding contributions, the exact energy is approached.
+    \end{itemize}
+    \vspace{20px}
+    \textcolor{Red}{\importanttext{Cons:}}
+    \begin{itemize}
+        \item Still quite computationally expensive
+        \item Bad scaling for higher contributions
+        \item What contributions to include might not be obvious
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Hartree-Fock (HF)}
+    Hartree-Fock methods approximate two body interactions as a mean field potential.
+    
+    \begin{align*}
+        \inner{\Phi_0}{\hat{H}}{\Phi_0} \equiv 
+    \end{align*}
 \end{frame}
 
 \begin{frame}{Custom Title}{Custom Subsection with Footnote}
