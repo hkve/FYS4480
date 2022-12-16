@@ -96,7 +96,7 @@
     \\[10pt]
     By considering every possible $N$ particle state in our system (using $\mathset{\crt{1},\ldots,\crt{N},\ldots,\crt{n}}$), we can construct our ground state $\ket{\Psi_0}$ as a linear combination of excited states.
     \begin{align*}
-        \ket{\Psi_0} = C_0 + \sum_{ai} C_i^a \exed{i}{a} + \sum_{ai} C_{ij}^{ab} \exed{ij}{ab} + \ldots
+        \ket{\Psi_0} = C_0\gs + \sum_{ai} C_i^a \exed{i}{a} + \sum_{ai} C_{ij}^{ab} \exed{ij}{ab} + \ldots
     \end{align*} 
     \\[10pt] 
     Normally solved by considering the Hamiltonian in matrix representation, with elements $H_{XY} = \inner{\Phi_X}{\hat{H}}{\Phi_Y}$, with $X, Y \in \mathset{\text{0p0h},\text{1p1h}\ldots\text{NpNh}}$, giving the eigenvalue problem 
@@ -203,7 +203,7 @@
         \item Understandable and relatively easy to set up 
         \item Excited states thrown into the bargain
         \item Reduces the problem of FCI
-        \item When adding contributions, the exact energy is approached.
+        \item When adding contributions, we approach the exact energy (FCI).
     \end{itemize}
     \vspace{20px}
     \textcolor{Red}{\importanttext{Cons:}}
@@ -216,10 +216,13 @@
 
 \begin{frame}
     \frametitle{Hartree-Fock (HF)}
-    Hartree-Fock methods approximate two body interactions as a mean field potential.
-    
+    Hartree-Fock methods approximate two body interactions as a mean field potential. 
+
+    $\ket{\Phi_0} = \crt{1},\ldots \crt{N} \vac$.
+
     \begin{align*}
-        \inner{\Phi_0}{\hat{H}}{\Phi_0} \equiv 
+        E[\hatreefock{\Phi}] &= \sum_{i}^{N} \inner{i}{h}{i} + \frac{1}{2}\sum_{ij}^{N} \innerAS{ij}{\hat{v}}{ij} \\
+        L[\hatreefock{\Phi}] &= E[\hatreefock{\Phi}] - \sum_{pq}^{n} \epsilon_{pq}(\braket{p|q} - \delta_{pq})
     \end{align*}
 \end{frame}
 
