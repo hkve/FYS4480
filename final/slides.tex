@@ -211,6 +211,7 @@
         \item Still quite computationally expensive
         \item Bad scaling for higher contributions
         \item What contributions to include might not be obvious
+        \item Not size extensive 
     \end{itemize}
 \end{frame}
 
@@ -250,7 +251,7 @@
         (\hat{H}_0 + \hat{V})\ket{\Psi_0} &= E \ket{\Psi_0} \\
         (\omega - \hat{H}_0)\ket{\Psi_0} &= (\omega-E+V)\ket{\Psi_0}
     \end{align*} 
-    Defining two hermitian idempotent operators, for model space ($P$) and excluded space ($Q$).
+    Defining two hermitian idempotent operators, for model space ($P$) and complimentary space ($Q$).
     \begin{align*}
         P = \ket{\Phi_0}\bra{\Phi_0}, \hspace{10px} Q = \sum_{m=1}^\infty \ket{\Phi_m}\bra{\Phi_m},\hspace{10px} P^2 = P, Q^2 = Q,\hspace{10px} [P,Q] = [\hat{H}_0, P] = [\hat{H}_0, Q] = 0
     \end{align*}
@@ -320,6 +321,38 @@
         \ord{E}{2} = \inner{\Phi_0}{\hat{V}\hat{R}_0 \hat{V}}{\Phi_0} = \psum_m \inner{\Phi_0}{\hat{V}\frac{\ket{\Phi_m}\bra{\Phi_m}}{\ord{E}{0}-\hat{H}_0}\hat{V}}{\Phi_0}= \frac{1}{4} \sum_{ijab} \frac{|\inner{ij}{\hat{v}}{ab}|^2}{\epsilon_i + \epsilon_j - \epsilon_a - \epsilon_b}
     \end{align*}
     If the interaction is parametrized by a coupling constant, the coupling/SP energy ratio is crucial.
+\end{frame}
+
+\subsection{RS}
+\begin{frame}
+    \begin{figure}
+        \begin{subfigure}{.49\textwidth}
+            \includegraphics[width=\linewidth]{figs/RS_E.pdf}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{.49\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{figs/RS_diff.pdf}
+        \end{subfigure}
+    \end{figure}
+\end{frame}
+
+\subsection{PT}
+\begin{frame}
+    \textcolor{Green}{\importanttext{Pros:}}
+    \begin{itemize}
+        \item Cheap compared with CI methods 
+        \item Still capable of high accuracy
+        \item Incorporate high order excitations, even at low order  
+        \item Size extensive 
+    \end{itemize}
+    \vspace{20px}
+    \textcolor{Red}{\importanttext{Cons:}}
+    \begin{itemize}
+        \item No guaranty for convergence
+        \item Nonvariational, we have no energy bounds  
+        \item Degeneracy (at least this formulation)
+    \end{itemize}
 \end{frame}
 
 \subsection{Typographics}
