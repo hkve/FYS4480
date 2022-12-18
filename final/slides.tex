@@ -96,7 +96,7 @@
     \\[10pt]
     By considering every possible $N$ particle state in our system (using $\mathset{\crt{1},\ldots,\crt{N},\ldots,\crt{n}}$), we can construct our ground state $\ket{\Psi_0}$ as a linear combination of excited states.
     \begin{align*}
-        \ket{\Psi_0} = C_0\gs + \sum_{ai} C_i^a \exed{i}{a} + \sum_{ai} C_{ij}^{ab} \exed{ij}{ab} + \ldots
+        \ket{\Psi_0} = C_0\gs + \sum_{ai} C_i^a \exed{i}{a} + \sum_{abij} C_{ij}^{ab} \exed{ij}{ab} + \ldots
     \end{align*} 
     \\[10pt] 
     Normally solved by considering the Hamiltonian in matrix representation, with elements $H_{XY} = \inner{\Phi_X}{\hat{H}}{\Phi_Y}$, with $X, Y \in \mathset{\text{0p0h},\text{1p1h}\ldots\text{NpNh}}$, giving the eigenvalue problem 
@@ -224,6 +224,63 @@
         E[\hatreefock{\Phi}] &= \sum_{i}^{N} \inner{i}{h}{i} + \frac{1}{2}\sum_{ij}^{N} \innerAS{ij}{\hat{v}}{ij} \\
         L[\hatreefock{\Phi}] &= E[\hatreefock{\Phi}] - \sum_{pq}^{n} \epsilon_{pq}(\braket{p|q} - \delta_{pq})
     \end{align*}
+\end{frame}
+
+\subsection{HF}
+\begin{frame}
+    \textcolor{Green}{\importanttext{Pros:}}
+    \begin{itemize}
+        \item Cheap 
+    \end{itemize}
+    \vspace{20px}
+    \textcolor{Red}{\importanttext{Cons:}}
+    \begin{itemize}
+        \item Bad
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Many body perturbation theory (MBPT)}
+    Again, the exact ground state of the system is assumed to be an expansion of the ground state ansatz $\gs$ and excitations of this (1p1h, 2p2h...)
+    \begin{align*}
+        \ket{\Psi_0} = \gs + \sum_{m=1}^{\infty}C_m \ket{\Phi_m}
+    \end{align*}
+    With $m$ going over all $\gs$ excitations. There is no coefficient for $\gs$, since we have chosen intermediate normalization $\braket{\Phi_0 | \Psi_0} = 1$. $\ket{\Psi_0}$ is an eigenstate of the full Hamiltonian and we subtract the Schr\"{o}dinger equation from an arbitrary energy variable $\omega$. 
+    \begin{align*}
+        (\hat{H}_0 + \hat{V})\ket{\Psi_0} &= E \ket{\Psi_0} \\
+        (\omega - \hat{H}_0)\ket{\Psi_0} &= (\omega-E+V)\ket{\Psi_0}
+    \end{align*} 
+    Defining two hermitian idempotent operators, for model space ($P$) and excluded space ($Q$).
+    \begin{align*}
+        P = \ket{\Phi_0}\bra{\Phi_0}, \hspace{10px} Q = \sum_{m=1}^\infty \ket{\Phi_m}\bra{\Phi_m},\hspace{10px} P^2 = P, Q^2 = Q,\hspace{10px} [P,Q] = [\hat{H}_0, P] = [\hat{H}_0, Q] = 0
+    \end{align*}
+    Together they for the identity in the complete Hilbert space $P + Q = I$, which is useful since
+    \begin{align*}
+        \ket{\Psi_0} &= (P+Q)\ket{\Psi_0} = \gs + Q\ket{\Psi_0} \\
+        Q\ket{\Psi_0} &= \ket{\Psi_0} - \gs 
+    \end{align*}  
+\end{frame}
+
+\subsection{MBPT}
+\begin{frame}
+    When applying $Q$ from the left, the rewritten Schr\"{o}dinger equation becomes
+    \begin{align*}
+        Q\ket{\Psi_0} &= \hat{R}_0(\omega) (\omega - E + V)\ket{\Psi_0}, \hspace{20px} \hat{R}_0 (\omega) = \frac{Q}{\omega-\hat{H}_0} \\
+        \ket{\Psi_0} &= \gs + \hat{R}_0(\omega) (\omega - E + V)\ket{\Psi_0}
+    \end{align*}
+    This is solved iteratively, often starting with the guess $\ket{\ord{\Psi_0}{0}} = \gs$. The final state $\ket{\Psi_0}$ can then be expressed as. 
+    \begin{align*}
+        \ket{\Psi_0} = \sum_{i=0}^\infty \left( \hat{R}_0(\omega) (\hat{V}-E+\omega) \right)^i \gs
+    \end{align*}
+    With an energy:
+    \begin{align*}
+        E = \inner{\Phi_0}{\hat{H}_0 + \hat{V}}{\Psi_0}= \ord{E}{0} + \Delta E = \ord{E}{0} +  \sum_{i=0}^\infty  \bra{\Phi_0} \hat{V}\left( \hat{R}_0(\omega) (\hat{V}-E+\omega) \right)^i \gs    
+    \end{align*}
+    Taking just the correlation energy $\Delta E$, we define the PT order by where we truncate this contribution
+    \begin{align*}
+        \Delta E = \sum_{i=0}^\infty \ord{\Delta E}{i},\hspace{20px} \ord{\Delta E}{i} = \bra{\Phi_0} \hat{V}\left( \hat{R}_0(\omega) (\hat{V}-E+\omega) \right)^i \gs    
+    \end{align*}
+
 \end{frame}
 
 \begin{frame}{Custom Title}{Custom Subsection with Footnote}
