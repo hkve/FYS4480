@@ -278,13 +278,48 @@
     \end{align*}
     Taking just the correlation energy $\Delta E$, we define the PT order by where we truncate this contribution
     \begin{align*}
-        \Delta E = \sum_{i=0}^\infty \ord{\Delta E}{i},\hspace{20px} \ord{\Delta E}{i} = \bra{\Phi_0} \hat{V}\left( \hat{R}_0(\omega) (\hat{V}-E+\omega) \right)^i \gs    
+        \Delta E = \sum_{i=0}^\infty \ord{\Delta E}{i},\hspace{20px} \ord{\Delta E}{i} = \bra{\Phi_0} \hat{V}\left( \hat{R}_0(\omega) (\hat{V}-E+\omega) \right)^i \gs
     \end{align*}
-
 \end{frame}
 
-\begin{frame}{Custom Title}{Custom Subsection with Footnote}
-    This frame has a custom title and a custom subtitle.\footnote{This is a footnote. See also \textcite{example_2022}. }
+\begin{frame}
+    \frametitle{Different approaches, Rayleigh-Schr\"{o}dinger (RS)}
+    Different choices of $\omega$ can now be made in order to obtain diﬀerent types of PT expansions. 
+    \\[10pt]
+    Setting $\omega = E$ removes $E$ from $(\hat{V}-E+\omega)$, but it is still present in $\hat{R}_0(\omega = E)$, giving an implicit equation. This approach is called Brillouin-Wigner (BW) PT.
+    \\[10pt] Setting $\omega = \ord{E}{0}$, we do not have the $E$ dependence problem for $\hat{R}_0$, and by setting $\Delta E = E - \ord{E}{0}$ we obtain.
+    \begin{align*}
+        \Delta E = \sum_{i=0}^\infty \ord{\Delta E}{i} = \sum_{i=0}^\infty \bra{\Phi_0} \hat{V}\left( \hat{R}_0(\omega) (\hat{V}-\Delta E) \right)^i \gs
+    \end{align*}
+    This does not seem to bring any improvement, since we still have an implicit equation. However, since $\hat{R}_0$ contains $Q$ and $\Delta E$ is just a scalar, $\hat{R}_0 \Delta E \ket{\Psi_0} = \Delta E \hat{R}_0 \ket{\Psi_0} = 0$, a pretty neat perturbative expansion can be formed when gathering terms of the same interaction order. 
+\end{frame}
+
+\subsection{RS}
+\begin{frame}
+    Explicitly, we expand $\Delta E$
+    \begin{align*}
+        \Delta E &= \inner{\Phi_0}{\hat{V}}{\Phi_0} + \inner{\Phi_0}{\hat{V}\hat{R}_0(\hat{V} - \Delta E)}{\Phi_0} + \inner{\Phi_0}{\hat{V}\hat{R}_0(\hat{V} - \Delta E)\hat{R}_0(\hat{V}-\Delta E)}{\Phi_0} + \ldots \\
+        &=  \inner{\Phi_0}{\hat{V}}{\Phi_0} + \inner{\Phi_0}{\hat{V}\hat{R}_0\hat{V}}{\Phi_0} + \inner{\Phi_0}{\hat{V}\hat{R}_0(\hat{V} - \Delta E)\hat{R}_0\hat{V}}{\Phi_0} + \ldots \\
+        &= \ord{E}{1} + \ord{E}{2} + \inner{\Phi_0}{\hat{V}\hat{R}_0\hat{V}\hat{R}_0\hat{V}}{\Phi_0} - \inner{\Phi_0}{\hat{V}\hat{R}_0\Delta E \hat{R}_0 \hat{V}}{\Phi_0} + \ldots
+    \end{align*}
+    And by inserting recursively for $\Delta E$, we get \textit{two} terms with three $\hat{V}$s, giving $\ord{E}{3}$. Higher orders of $\hat{V}$ will be given to $\ord{E}{4}, \ord{E}{5}, \ldots$.
+    \begin{align*}
+        &\inner{\Phi_0}{\hat{V}\hat{R}_0\hat{V}\hat{R}_0\hat{V}}{\Phi_0} - \inner{\Phi_0}{\hat{V}\hat{R}_0 (\ord{E}{1} + \ord{E}{2} + \ldots) \hat{R}_0 \hat{V}}{\Phi_0} + \ldots \\
+        =&  \left( \inner{\Phi_0}{\hat{V}\hat{R}_0\hat{V}\hat{R}_0\hat{V}}{\Phi_0} - \ord{E}{1}\inner{\Phi_0}{\hat{V}\hat{R}_0^2 \hat{V}}{\Phi_0} \right) - \ord{E}{2}\inner{\Phi_0}{\hat{V}\hat{R}_0^2 \hat{V}}{\Phi_0} + \ldots \\
+        =& \ord{E}{3} - \ord{E}{2}\inner{\Phi_0}{\hat{V}\hat{R}_0^2 \hat{V}}{\Phi_0} + \ldots
+    \end{align*}
+    We can now use this as a normal perturbative series that can be truncated at a specific interaction order (RS2, RS3 and so on). 
+\end{frame}
+
+\subsection{RS}
+\begin{frame}
+    In contrast to CI/Hartree-Fock, this is not a variational approach. There is no guarantee for convergence and results across different orders can vary.
+    \\[10pt]
+    If the SP energies are very close ($\hat{H}_0$), convergence might be a problem since the denominator of $\hat{R}_0$ can explode.
+    \begin{align*}
+        \ord{E}{2} = \inner{\Phi_0}{\hat{V}\hat{R}_0 \hat{V}}{\Phi_0} = \psum_m \inner{\Phi_0}{\hat{V}\frac{\ket{\Phi_m}\bra{\Phi_m}}{\ord{E}{0}-\hat{H}_0}\hat{V}}{\Phi_0}= \frac{1}{4} \sum_{ijab} \frac{|\inner{ij}{\hat{v}}{ab}|^2}{\epsilon_i + \epsilon_j - \epsilon_a - \epsilon_b}
+    \end{align*}
+    If the interaction is parametrized by a coupling constant, the coupling/SP energy ratio is crucial.
 \end{frame}
 
 \subsection{Typographics}
