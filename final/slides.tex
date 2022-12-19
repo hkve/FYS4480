@@ -217,26 +217,83 @@
 
 \begin{frame}
     \frametitle{Hartree-Fock (HF)}
-    Hartree-Fock methods approximate two body interactions as a mean field potential. 
-
-    $\ket{\Phi_0} = \crt{1},\ldots \crt{N} \vac$.
-
+    Hartree-Fock methods approximate two body interactions as a mean field potential. This can be done by performing a unitary transformation on the orthonormal basis set $\mathset{\ket{\alpha}}$. The ground state ansatz energy is:
     \begin{align*}
-        E[\hatreefock{\Phi}] &= \sum_{i}^{N} \inner{i}{h}{i} + \frac{1}{2}\sum_{ij}^{N} \innerAS{ij}{\hat{v}}{ij} \\
-        L[\hatreefock{\Phi}] &= E[\hatreefock{\Phi}] - \sum_{pq}^{n} \epsilon_{pq}(\braket{p|q} - \delta_{pq})
+        \inner{\Phi_0}{\hat{H}}{\Phi_0} = \sum_{\alpha=1}^N \inner{\alpha}{\hat{h}_0}{\alpha} + \frac{1}{2} \sum_{\alpha\beta=1}^N \innerAS{\alpha\beta}{\hat{v}}{\alpha\beta} 
     \end{align*}
+    We aim to express this in a new (Hartree-Fock) basis $\mathset{\ket{i}}$.
+    \begin{align*}
+        \inner{\hatreefock{\Phi}_0}{\hat{H}}{\hatreefock{\Phi}_0} = \sum_{i=1}^{N} \inner{i}{\hat{h}_0}{i} + \frac{1}{2}\sum_{ij=1}^{N} \innerAS{ij}{\hat{v}}{ij}
+    \end{align*}
+    Of course we do not know this new basis a priori, but they are related by a unitary transformation $U$ where $U^\dagger = U^{-1}$. 
+    \begin{align*}
+        \ket{i} = U\ket{\alpha} = \sum_{\alpha} C_{i\alpha} \ket{\alpha}
+    \end{align*}
+    Since we have a unitary transformation, together with $\mathset{\ket{\alpha}}$ being orthonormal, the transformed basis $\mathset{\ket{i}}$ should also be orthonormal. 
+\end{frame}
+
+\subsection{HF}
+\begin{frame}
+    The new SP states must obey.
+    \begin{align*}
+        \sum_{ij=1}^{N} \braket{i|j} - \delta_{ij} = 0
+    \end{align*}
+    We formulate this as a minimization problem of the Hartree-Fock energy   
+    \begin{align*}
+        \inner{\hatreefock{\Phi}_0}{\hat{H}}{\hatreefock{\Phi}_0} = E[\hatreefock{\Phi}] = \sum_{i=1}^N \sum_{\alpha\beta=1}^n C^*_{i\alpha}C_{i\beta}\inner{\alpha}{\hat{h}_0}{\beta} + \frac{1}{2}\sum_{ij=1}^N \sum_{\alpha\beta\gamma\delta=1}^n C^*_{i\alpha} C^*_{j\beta} C_{i\gamma} C_{i\delta} \innerAS{\alpha\beta}{\hat{v}}{\delta\gamma} 
+    \end{align*}
+    With the constraint 
+    \begin{align*}
+        G = \sum_{ij=1}^N  \epsilon_{ij}\left( \sum_{\alpha\beta=1}^n C^*_{i\alpha}C_{j\beta} \braket{\alpha|\beta} - \delta_{ij}\right) = 0
+    \end{align*}
+    Then by taking the derivative w.r.t. the coefficients $C^*_{i\alpha}$ (minimizing w.r.t. $C$ or $C^*$ is arbitrary).
+    \begin{align*}
+        L[\hatreefock{\Phi}] &= E[\hatreefock{\Phi}] - G
+    \end{align*}
+    On obtains the eigenvalue problem (assuming we chose $\mathset{\ket{\alpha}}$ to be eigenstates of $\hat{h}_0$)
+    \begin{align*}
+        \sum_{\beta=1}^n \hatreefock{h}_{\alpha\beta} C_{i\beta} = \epsilon_i C_{i\alpha},\hspace{20px}
+        \hatreefock{h}_{\alpha\beta} = \epsilon_\alpha \delta_{\alpha\beta} + \sum_{j=1}^{N} \sum_{\gamma\delta=1}^n C_{j\gamma}^* C_{j\delta} \innerAS{\alpha\gamma}{\hat{v}}{\beta\delta}
+    \end{align*}
+    This is often solved iteratively, until a stopping criterion is reached.
+\end{frame}
+
+\subsection{HF}
+\begin{frame}
+    Taking note of the interaction piece of $\hatreefock{h}_{\alpha\beta}$, this is nothing more than
+    \begin{align*}
+        \sum_{j=1}^{N} \sum_{\gamma\delta=1}^n C_{j\gamma}^* C_{j\delta} \innerAS{\alpha\gamma}{\hat{v}}{\beta\delta} = \sum_{j=1}^N \innerAS{\alpha j}{\hat{v}}{\beta j} = \sum_{j=1}^N \inner{\alpha j}{\hat{v}}{\beta j} - \inner{\alpha j}{\hat{v}}{j \beta} 
+    \end{align*}
+    often called the direct and exchange terms. The different states are affected by a mean field set up by all occupied states.
+    \\[10pt]
+    As an example, consider a basis set of three different hydrogen like s-orbitals, giving six total states when counting spin. Constructing Helium $(2e)$  and Beryllium $(4e)$ $ S= 0$ states, we can calculate the ground state energies and compare with CIS.
+
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{l|l|l|l|l|l}
+        Atom      & $E_0$ & $E_{\text{CI}}$ & $\hatreefock{E_1}$ & $\hatreefock{E_c}$ & $E$ \\
+        \hline
+        Helium    & -2.7500     & -2.8385    & -2.8291 & -2.8311  & -2.9037    \\
+        Beryllium & -13.7160     & -14.3621    & -14.4998 & -14.5083  &   -14.6674 
+        \end{tabular}
+        \caption{Showing the naive ground state energy expectation value $E_0$, the configuration interaction calculation $E_{\text{CI}}$, Hartree-Fock after 1 iteration and after convergence $\hatreefock{E_1}, \hatreefock{E_c}$ and the exact ground state energy using our Hamiltonian $E$.}
+    \end{table}
+
 \end{frame}
 
 \subsection{HF}
 \begin{frame}
     \textcolor{Green}{\importanttext{Pros:}}
     \begin{itemize}
-        \item Cheap 
+        \item Computationally cheap
+        \item Variational 
+        \item Serves as a building block for other methods, changing to a HF basis can make another calculations simpler (i.e. perturbation theory)
     \end{itemize}
     \vspace{20px}
     \textcolor{Red}{\importanttext{Cons:}}
     \begin{itemize}
-        \item Bad
+        \item If correlations are important, the mean field might not be a good approximation
+        \item Possibility for not converging if the starting guess is not in a convex region around the minima
     \end{itemize}
 \end{frame}
 
@@ -355,193 +412,4 @@
     \end{itemize}
 \end{frame}
 
-\subsection{Typographics}
-\begin{frame}
-    These examples follow the Metropolis Theme
-    \begin{itemize}
-        \item Regular
-        \item \alert{Alert}
-        \item \textit{Italic}
-        \item \textbf{Bold}
-    \end{itemize}
-\end{frame}
-
-\subsection{Lists}
-
-\begin{frame}
-    \begin{columns}[T,onlytextwidth]
-    \column{0.33\textwidth}
-      \textbf{Items}
-      \begin{itemize}
-        \item Cats 
-        \begin{itemize}
-            \item British Shorthair
-        \end{itemize}
-        \item Dogs \item Birds
-      \end{itemize}
-
-    \column{0.33\textwidth}
-      \textbf{Enumerations}
-      \begin{enumerate}
-        \item First 
-        \begin{enumerate}
-            \item First subpoint
-        \end{enumerate}
-        \item Second \item Last
-      \end{enumerate}
-
-    \column{0.33\textwidth}
-      \textbf{Descriptions}
-      \begin{description}
-        \item[Apples] Yes \item[Oranges] No \item[Grappes] No
-      \end{description}
-\end{columns}
-\end{frame}
-
-\subsection{Table}
-\begin{frame}
-    \begin{table}
-        \caption{Largest cities in the world (source: Wikipedia)}
-        \begin{tabular}{@{} lr @{}}
-          \toprule
-          City & Population\\
-          \midrule
-          Mexico City & 20,116,842\\
-          Shanghai & 19,210,000\\
-          Peking & 15,796,450\\
-          Istanbul & 14,160,467\\
-          \bottomrule
-        \end{tabular}
-        \hspace*{1cm}
-            \setlength\extrarowheight{3pt}
-        \begin{tabular}{|lr|}
-          \hline
-          \rowcolor{primary}\color{white}City & \color{white}Population\\
-          \hline
-          Mexico City & 20,116,842\\
-          Shanghai & 19,210,000\\
-          Peking & 15,796,450\\
-          Istanbul & 14,160,467\\
-          \hline
-        \end{tabular}
-    \end{table}
-\end{frame}
-
-\subsection{Figures}
-\begin{frame}
-    \begin{figure}[htbp]
-        \centering
-        \caption{Plot of $y=x^2$}
-        \begin{tikzpicture}
-            \begin{axis}[
-            legend columns=3,
-            legend style={at={(0.5,-0.3)},anchor=north},
-            width = \textwidth,
-            height = 2.5in,
-            xmin = -3, 
-            xmax = 3,
-            ymin = 0,
-            ymax = 10,
-            ]
-                \addplot[primary] {x^2};
-                        \addlegendentry{$x^2$}
-            \end{axis}
-        \end{tikzpicture}
-    \end{figure}
-
-\end{frame}
-
-\subsection{Blocks}
-\begin{frame}
-
-   \centering
-	\begin{minipage}[b]{0.5\textwidth}
-
-	  \begin{block}{Default}
-        Block content.
-      \end{block}
-
-      \begin{alertblock}{Alert}
-        Block content.
-      \end{alertblock}
-
-      \begin{exampleblock}{Example}
-        Block content.
-      \end{exampleblock}      
-      
-	\end{minipage}	
-\end{frame}
-
-\section{Maths}
-\subsection{Equations}
-\begin{frame}
-    \begin{itemize}
-        \item A numbered equation:
-        \begin{equation}
-            y_t = \beta x_t + \varepsilon_t
-        \end{equation}
-         \item Another equation:
-        \begin{equation*}
-            \mathbf{Y} = \boldsymbol{\beta} \mathbf{X} + \boldsymbol{\varepsilon}_t
-        \end{equation*}
-    \end{itemize}
-\end{frame}
-
-\subsection{Theorem}
-\begin{frame}
-    \begin{itemize}
-        \item Theorems are numbered consecutively.
-    \end{itemize}
-    \begin{theorem}[Example Theorem]
-         Given a discrete random variable X, which takes values in the alphabet $\mathcal{X}$ and is distributed according to  $p:{\mathcal {X}}\to [0,1]$:
-            \begin{equation}
-                \mathrm {H} (X):=-\sum _{x\in {\mathcal {X}}}p(x)\log p(x)=\mathbb {E} [-\log p(X)]
-            \end{equation}
-    \end{theorem}
-\end{frame}
-
-\begin{frame}{}{Definitions}
-    \begin{itemize}
-        \item Definition numbers are prefixed by the section number in the respective part.
-    \end{itemize}
-     \begin{definition}[Example Definition]
-         Given a discrete random variable X, which takes values in the alphabet $\mathcal{X}$ and is distributed according to  $p:{\mathcal {X}}\to [0,1]$:
-            \begin{equation}
-                \mathrm {H} (X):=-\sum _{x\in {\mathcal {X}}}p(x)\log p(x)=\mathbb {E} [-\log p(X)]
-            \end{equation}
-    \end{definition}
-\end{frame}
-
-\begin{frame}{}{Examples}
-    \begin{itemize}
-        \item Examples are numbered as definitions.
-    \end{itemize}
-    \begin{examp}[Example Theorem]
-         Given a discrete random variable X, which takes values in the alphabet $\mathcal{X}$ and is distributed according to  $p:{\mathcal {X}}\to [0,1]$:
-            \begin{equation}
-                \mathrm {H} (X):=-\sum _{x\in {\mathcal {X}}}p(x)\log p(x)=\mathbb {E} [-\log p(X)]
-            \end{equation}
-    \end{examp}
-\end{frame}
-
-\makepart{Demo Presentation Part 2}
-
-\section{Section}
-\subsection{Subsection}
-\subsubsection{Subsubsection}
-\subsubsection{Subsubsection}
-\subsection{Subsection}
-\subsubsection{Subsubsection}
-\subsubsection{Subsubsection}
-\section{Section}
-\subsection{Subsection}
-\subsubsection{Subsubsection}
-\subsubsection{Subsubsection}
-\subsection{Subsection}
-\subsubsection{Subsubsection}
-\subsubsection{Subsubsection}
-
-\begin{frame}[allowframebreaks]{References}
-    \printbibliography
-\end{frame}
 \end{document}
